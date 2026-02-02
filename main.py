@@ -109,7 +109,7 @@ async def on_ready():
         print(f"[Setup]{cfg.Success} Synced guild commands for {gid}: {bot.get_guild(gid).name}")
 
     print(f"[Setup]{cfg.Success} Finished")
-    # thread.start()
+    thread.start()
     consolethread.start()
 
 while True:
