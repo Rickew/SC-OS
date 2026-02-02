@@ -565,7 +565,7 @@ def setup(tree: app_commands.CommandTree):
                 print(f"[Shopitems edit]{cfg.Success} Re-Synced guild commands for {gid}: {tree.client.get_guild(gid).name}")
         except:
             # this is complete overview Error handling, sends errors to testing server
-            i = await intact.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Shopitems {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
+            i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Shopitems {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
             print(f"[Shopitems {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
 
     # Allows regular users to view the honor shop items
@@ -577,39 +577,40 @@ def setup(tree: app_commands.CommandTree):
             print(f"[ShopItems view] Command ran by {intact.user} in {intact.guild.name}")
             await intact.response.defer(thinking=True, ephemeral=True)
             load_options(intact.guild)
-            embed = Embed(title="Shop Items", color=cfg.embedcolors[cfg.serverid_to_name[str(intact.guild_id)]])
-            itemoptions = []
-            for item in ITEMS:
-                x = ITEMS[item]
-                try:
-                    # some items have options
-                    embed.add_field(name=item,value=f"Cost:`{x['Cost']}`\nLimit: `{x['Limit']}`\nCooldown: `{x['Cooldown']}` Hours\nCoupons? `{x['Coupons?']}`")
-                except:
-                    embed.add_field(name=item,value=f"Item Options:`{len(x['Options'])}`\nLimit: `{x['Limit']}`\nCooldown: `{x['Cooldown']}` Hours\nCoupons? `{x['Coupons?']}`")
-                try:
-                    if x["Options"]:
-                        itemoptions.append(item)
-                except:
-                    continue
-            view = ItemView()
-            await intact.edit_original_response(embed=embed, view=view)
-            ind = await view.wait()
-            if ind:
-                return
-            if view.cancel:
-                await intact.delete_original_response()
-                return
-            view = CancelButton()
-            select = BasicSelect(options=itemoptions, placeholder="Select an Option", max_values=1)
-            view.add_item(select)
-            await intact.edit_original_response(view=view)
-            i = 0
-            while not select.selected and not view.cancel:
-                await sleep(1)
-                i+=1
-                if i >= 100:
-                    return
             while True:
+                embed = Embed(title="Shop Items", color=cfg.embedcolors[cfg.serverid_to_name[str(intact.guild_id)]])
+                itemoptions = []
+                for item in ITEMS:
+                    x = ITEMS[item]
+                    try:
+                        # some items have options
+                        embed.add_field(name=item,value=f"Cost:`{x['Cost']}`\nLimit: `{x['Limit']}`\nCooldown: `{x['Cooldown']}` Hours\nCoupons? `{x['Coupons?']}`")
+                    except:
+                        embed.add_field(name=item,value=f"Item Options:`{len(x['Options'])}`\nLimit: `{x['Limit']}`\nCooldown: `{x['Cooldown']}` Hours\nCoupons? `{x['Coupons?']}`")
+                    try:
+                        if x["Options"]:
+                            itemoptions.append(item)
+                    except:
+                        continue
+                view = ItemView()
+                await intact.edit_original_response(embed=embed, view=view)
+                ind = await view.wait()
+                if ind:
+                    return
+                if view.cancel:
+                    await intact.delete_original_response()
+                    return
+                view = CancelButton()
+                select = BasicSelect(options=itemoptions, placeholder="Select an Option", max_values=1)
+                view.add_item(select)
+                await intact.edit_original_response(view=view)
+                i = 0
+                while not select.selected and not view.cancel:
+                    await sleep(1)
+                    i+=1
+                    if i >= 100:
+                        return
+                while True:
                     view = CancelorBack()
                     x = ITEMS[select.selection]
                     try:
@@ -629,7 +630,7 @@ def setup(tree: app_commands.CommandTree):
                         return
         except:
             # this is complete overview Error handling, sends errors to testing server
-            i = await intact.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Shopitems {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
+            i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Shopitems {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
             print(f"[Shopitems {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
 
     print(f"[Setup]{cfg.Success} Shopitems command group setup complete")

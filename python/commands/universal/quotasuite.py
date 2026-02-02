@@ -108,7 +108,7 @@ def NTSH(userinfo: dict, headers: dict, quota: dict, user: Member):
             try:
                 asyncrun(user.add_roles(user.guild.get_role(773221920485015552)))
             except Exception as e:
-                print(f"cfg.Error removing role from {user}:", e)
+                print(f"[Quota reset][NTSH]{cfg.Error} removing role from {user}:", e)
             updcells.append(Cell(userinfo['Row'], headers["Punishments"], 2))
             return updcells, "Incomplete - Exile"
         # 2nd AC strike
@@ -470,10 +470,6 @@ def check_promo(username: str, rank: str, events: int):
         times = json.load(f)
         f.close()
     try:
-        if username == "Malthiael":
-            print(rank)
-            print(events)
-
         if times[username] >= req[rank]["Total Time"] and int(events) >= req[rank]["Total Events"]:
             return True
     except:
@@ -490,7 +486,7 @@ def setup(tree: app_commands.CommandTree):
     @quota.command(name="settings", description="Edit the quota for a rank in your division.")
     async def settings(intact: Interaction):
         try:
-            print(f"Quota Settings Command ran by {intact.user} in {intact.guild.name}")
+            print(f"[Quota settings] command ran by {intact.user} in {intact.guild.name}")
             await intact.response.defer(thinking=True, ephemeral=True)
             
             # check division lock
@@ -1001,7 +997,7 @@ def setup(tree: app_commands.CommandTree):
             return
         except:
             # this is complete overview Error handling, sends errors to testing server
-            i = await intact.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Quota {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
+            i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Quota {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
             print(f"[Quota {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
         
 
@@ -1015,7 +1011,7 @@ def setup(tree: app_commands.CommandTree):
     @quota.command(name="reset", description="Perform a quota reset on your division's roster.")
     async def reset(intact: Interaction):
         try:
-            print(f"Roster Reset Command ran by {intact.user} in {intact.guild.name}")
+            print(f"[Quota reset] command ran by {intact.user} in {intact.guild.name}")
             await intact.response.defer(thinking=True, ephemeral=True)
             with open(get_local_path("data\\quota.json"), "r") as f:
                 quota = json.load(f)
@@ -1310,7 +1306,7 @@ def setup(tree: app_commands.CommandTree):
             return
         except:
             # this is complete overview Error handling, sends errors to testing server
-            i = await intact.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Quota {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
+            i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Quota {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
             print(f"[Quota {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
 
     print(f"[Setup]{cfg.Success} Quota command group setup complete")

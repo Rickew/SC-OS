@@ -117,7 +117,7 @@ def setup(tree: app_commands.CommandTree, guild: Guild):
             await intact.followup.send("Done", embeds=finalembeds)
         except:
             # this is complete overview Error handling, sends errors to testing server
-            i = await intact.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][{inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
+            i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][{inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
             print(f"[{inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
 
     print(f"[Setup]{cfg.Success} Coupon command setup complete for Guild: {guild.id}")

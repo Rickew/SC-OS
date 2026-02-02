@@ -26,7 +26,7 @@ GUILD_IDS = [
 async def rosteradd(tree: app_commands.CommandTree, intact: Interaction, user: Member, division: app_commands.Choice[int], rankselect: bool = False, overtime: bool = True, run: bool = False):
     # this is used for more than 1 command
     if not run:
-        print(f"Roster Add Command ran by {intact.user} in {intact.guild.name}")
+        print(f"[Roster add] Command ran by {intact.user} in {intact.guild.name}")
         await intact.response.defer(ephemeral=True, thinking=True)
         
     # comuser resolution
@@ -415,7 +415,7 @@ def setup(tree: app_commands.CommandTree):
                 await multifunction(tree, 'Honor', intact, addsub, users, amount)
         except:
             # this is complete overview Error handling, sends errors to testing server
-            i = await intact.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Roster {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
+            i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Roster {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
             print(f"[Roster {inspect.currentframe().f_code.co_name}][{option.name}]{cfg.Error}", i.jump_url)
 
 
@@ -439,7 +439,7 @@ def setup(tree: app_commands.CommandTree):
             return ret
         except:
             # this is complete overview Error handling, sends errors to testing server
-            i = await intact.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Roster {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
+            i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Roster {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
             print(f"[Roster {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
     
 
@@ -511,7 +511,7 @@ def setup(tree: app_commands.CommandTree):
             return
         except:
             # this is complete overview Error handling, sends errors to testing server
-            i = await intact.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Roster {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
+            i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Roster {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
             print(f"[Roster {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
 
 
@@ -602,7 +602,7 @@ def setup(tree: app_commands.CommandTree):
             return
         except:
             # this is complete overview Error handling, sends errors to testing server
-            i = await intact.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Roster {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
+            i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Roster {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
             print(f"[Roster {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
 
 
@@ -854,7 +854,7 @@ def setup(tree: app_commands.CommandTree):
             return
         except:
             # this is complete overview Error handling, sends errors to testing server
-            i = await intact.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Roster {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
+            i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Roster {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
             print(f"[Roster {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
         
     print(f"[Setup]{cfg.Success} Roster command group setup complete")
