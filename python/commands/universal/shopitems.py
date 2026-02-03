@@ -622,7 +622,10 @@ def setup(tree: app_commands.CommandTree):
                             if cfg.serverid_to_name[str(intact.guild_id)] in y["Division"] or "All" in y["Division"]:
                                 embed.add_field(name=op,value=f"Cost: `{y['Cost']}`\nAvailable to Divisions: `{div_frmt(y['Division'])}`")
                     await intact.edit_original_response(embed=embed, view=view)
-                    await view.wait()
+                    ind = await view.wait()
+                    if ind:
+                        intact.delete_original_response()
+                        return
                     if view.back:
                         break
                     if view.cancel:
