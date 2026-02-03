@@ -1,7 +1,7 @@
-from discord import Interaction, app_commands, Guild
-from discord import app_commands, Message
+from discord import Interaction, app_commands, Guild, Message, Embed
 import json
 import data.config as cfg
+import re
 
 COMMAND_NAME = "update"
 
@@ -18,8 +18,8 @@ def setup(tree: app_commands.CommandTree, guild: Guild):
     # input is a list of users from disord, and the amount of honor they get
     @tree.command(name="update", description="Update the outdated bot", guild=guild)
     async def update(intact: Interaction, test: str):
-        print(f"Update Command ran by {intact.user} in {intact.guild.name}")
-        # channel = intact.guild.get_channel(1263167899116372131)
-        # message: Message = [message async for message in channel.history(limit=1, oldest_first=False)][0]
-        # print(json.dumps(message.embeds[0].to_dict(), indent=2))
-        await intact.response.send_message("Done!", ephemeral=True)
+        try:
+            print(f"Update Command ran by {intact.user} in {intact.guild.name}")
+            await intact.response.send_message("Done!", ephemeral=True)
+        except:
+            None

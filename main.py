@@ -1,10 +1,11 @@
 from python.uiclasses import ApprAckDeny, ApproveDenyHit, InacApprDeny
 from python.helpers import runIDsync, get_local_path
-from discord import Intents, Object, Message
+from discord import Intents, Object, Message, Embed
 from python.backendconsole import backend
 from discord.ext import commands
 import data.config as cfg
 import threading
+from traceback import format_exc
 import json
 import time
 
@@ -17,7 +18,7 @@ async def on_message(message: Message):
     # activity record shtuff
     try:
         # if the message is in main SC activity record and send by the metaOS bot
-        if message.guild.id == 588427075283714049 and message.channel.id == 618536300860932134:
+        if message.guild.id == 588427075283714049 and message.channel.id == 618536300860932134 and message.author.id == 740668924106113155:
             
             # Make sure it has their total time - should have END in the author name
             if "END" in message.embeds[0].author.name:
@@ -41,8 +42,40 @@ async def on_message(message: Message):
                         totaltimes.update({user : totaltime})
                     json.dump(totaltimes, f, indent=2)
                     f.close()
-    except:
+        elif message.guild.id == 588427075283714049 and message.channel.id == 1263167899116372131 and message.author.id == 1263168532498092153:
+            oldembed = message.embeds[0]
+            secloses = message.embeds[0].fields[0].value.split("|")
+            rwloses = message.embeds[0].fields[1].value.split("|")
+            report: dict = {}
+            embed = Embed(title="Glacier Raid Log: Net Comparrison", url=oldembed.url, color=oldembed.color).set_footer(text=oldembed.footer.text, icon_url=oldembed.footer.icon_url)
+            for x in secloses:
+                key = x.strip().split("* ")[1]
+                value = int(x.strip().split(" ")[0].replace("*", ""))
+                report.update({key : {"SC" : value, "RW" : 0}})
+            for x in rwloses:
+                key = x.strip().split("* ")[1]
+                value = int(x.strip().split(" ")[0].replace("*", ""))
+                try:
+                    report[key]["RW"] = value
+                except:
+                    report.update({key : {"SC" : 0, "RW" : value}})
+            for key in report:
+                sc = report[key]["SC"]
+                rw = report[key]["RW"]
+                if rw - sc >= 0:
+                    sign = "+"
+                else:
+                    sign = ""
+                embed.add_field(name=key, value=f"**SC**: `{sc}` | **RW**: `{rw}`\n**Net**: `{sign}{rw-sc}`")
+            for i in range(len(embed.fields)%3, 3):
+                embed.add_field(name=" ", value=" ")
+            await message.channel.send(embed=embed)
+    except AttributeError:
         None
+    except:
+        # this is complete overview Error handling, sends errors to testing server
+        i = await bot.tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Activity-Logger]", description=format_exc(2)))
+        print(f"[Activity-Logger]{cfg.Error}", i.jump_url)
 
 
 

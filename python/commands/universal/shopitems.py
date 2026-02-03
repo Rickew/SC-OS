@@ -574,7 +574,7 @@ def setup(tree: app_commands.CommandTree):
     @shopitems.command(name="view", description="View the Honor Shop Items")
     async def view(intact: Interaction):
         try:
-            print(f"[ShopItems view] Command ran by {intact.user} in {intact.guild.name}")
+            print(f"[ShopItems view] command ran by {intact.user} in {intact.guild.name}")
             await intact.response.defer(thinking=True, ephemeral=True)
             load_options(intact.guild)
             while True:

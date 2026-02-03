@@ -1,9 +1,11 @@
-from python.helpers import exportSheetData, discord_to_username, get_scgroup_rank, username_to_discord_id, RosterSheet, send_dm
+from python.helpers import exportSheetData, discord_to_username, get_scgroup_rank, username_to_discord_id, RosterSheet, send_dm, get_ncgroup_rank
 from python.commands.ntshhitsuite import honorshophit
 from googleapiclient import discovery
+from traceback import format_exc
 from gspread import Worksheet
 import data.config as cfg
 from re import findall
+import inspect
 import discord
 import json
 
@@ -309,103 +311,170 @@ class ApproveDenyHit(discord.ui.View):
         super().__init__(timeout=None)
     @discord.ui.button(label="Approve",style=discord.ButtonStyle.green, custom_id="honorshop:hitapprove")
     async def appr(self, interaction: discord.Interaction, button: discord.ui.Button):
-        await interaction.response.defer()
-        print(f"{interaction.user} pressed a honor shop hit approve button")
         try:
-            purchase = interaction.message.embeds[0].fields[0].value
-            customer = interaction.message.embeds[0].fields[1].value
-            bounty = interaction.message.embeds[0].fields[2].value
-            target = interaction.message.embeds[0].fields[3].value
-            await interaction.guild.get_channel(1328990510328709160).send(embed=discord.Embed(title="Honor Shop Hit Approved", description=f"Purchase Approved by {interaction.user.mention}", url=interaction.message.jump_url).add_field(name="Purchase", value=purchase, inline=False).add_field(name="Target", value=target).add_field(name="Customer", value=customer, inline=False))
-            await interaction.message.edit(view=None, embed=interaction.message.embeds[0].add_field(name="Fulfilled By", value=interaction.user.mention, inline=False))
-            await honorshophit(interaction, target, 1, customer, bounty)
+            await interaction.response.defer()
+            print(f"{interaction.user} pressed a honor shop hit approve button")
+            try:
+                purchase = interaction.message.embeds[0].fields[0].value
+                customer = interaction.message.embeds[0].fields[1].value
+                bounty = interaction.message.embeds[0].fields[2].value
+                target = interaction.message.embeds[0].fields[3].value
+                await interaction.guild.get_channel(1328990510328709160).send(embed=discord.Embed(title="Honor Shop Hit Approved", description=f"Purchase Approved by {interaction.user.mention}", url=interaction.message.jump_url).add_field(name="Purchase", value=purchase, inline=False).add_field(name="Target", value=target).add_field(name="Customer", value=customer, inline=False))
+                await interaction.message.edit(view=None, embed=interaction.message.embeds[0].add_field(name="Fulfilled By", value=interaction.user.mention, inline=False))
+                await honorshophit(interaction, target, 1, customer, bounty)
+            except:
+                return
         except:
-            return
+            # this is complete overview Error handling, sends errors to testing server
+            i = await interaction.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=discord.Embed(title=f"[Error][{__class__.__name__}][{inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
+            print(f"[{__class__.__name__}][{inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
     @discord.ui.button(label="Deny",style=discord.ButtonStyle.red, custom_id="honorshop:hitdeny")
     async def deny(self, interaction: discord.Interaction, button: discord.ui.Button):
-        await interaction.response.defer()
-        print(f"{interaction.user} pressed a honor shop hit deny button")
         try:
-            purchase = interaction.message.embeds[0].fields[0].value
-            customer = interaction.message.embeds[0].fields[1].value
-            await interaction.guild.get_channel(1328990510328709160).send(embed=discord.Embed(title="Honor Shop Purchase Denied", description=f"Purchase Denied by {interaction.user.mention}", url=interaction.message.jump_url).add_field(name="Purchase", value=purchase, inline=False).add_field(name="Customer", value=customer, inline=False))
-            await interaction.message.edit(view=None, embed=interaction.message.embeds[0].add_field(name="Denied By", value=f"{interaction.user.mention}\nNo Refunds.", inline=False))
+            await interaction.response.defer()
+            print(f"{interaction.user} pressed a honor shop hit deny button")
+            try:
+                purchase = interaction.message.embeds[0].fields[0].value
+                customer = interaction.message.embeds[0].fields[1].value
+                await interaction.guild.get_channel(1328990510328709160).send(embed=discord.Embed(title="Honor Shop Purchase Denied", description=f"Purchase Denied by {interaction.user.mention}", url=interaction.message.jump_url).add_field(name="Purchase", value=purchase, inline=False).add_field(name="Customer", value=customer, inline=False))
+                await interaction.message.edit(view=None, embed=interaction.message.embeds[0].add_field(name="Denied By", value=f"{interaction.user.mention}\nNo Refunds.", inline=False))
+            except:
+                print("interaction issue probably")
+                return
         except:
-            print("interaction issue probably")
-            return
+            # this is complete overview Error handling, sends errors to testing server
+            i = await interaction.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=discord.Embed(title=f"[Error][{__class__.__name__}][{inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
+            print(f"[{__class__.__name__}][{inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
 
 class ApprAckDeny(discord.ui.View):
     def __init__(self):
         super().__init__(timeout=None)
     @discord.ui.button(label="Acknowledge/Fulfill",style=discord.ButtonStyle.green, custom_id="honorshop:ackful")
     async def ack(self, interaction: discord.Interaction, button: discord.ui.Button):
-        await interaction.response.defer()
-        print(f"{interaction.user} pressed a honor shop ack/fulfill button")
         try:
+            await interaction.response.defer()
+            print(f"{interaction.user} pressed a honor shop ack/fulfill button")
             try:
-                comuser = discord_to_username([str(interaction.user.id)])[0]
-                rank = get_scgroup_rank([comuser])[comuser]['rank']
-            except:
-                print("Not on roster.")
+                try:
+                    comuser = discord_to_username([str(interaction.user.id)])[0]
+                    rank = get_scgroup_rank([comuser])[comuser]['rank']
+                    if rank > 10:
+                        action = "Fulfilled"
+                    else:
+                        action = "Acknowledged"
+                except:
+                    action = "Fulfilled"
+                    print("Not on roster.")
                 
-
-            role = interaction.guild.get_role(1255328797981409340)
-            if rank < 8 and role not in interaction.user.roles:
+                role = interaction.guild.get_role(1255328797981409340)
+                if rank < 8 and role not in interaction.user.roles:
+                    return
+                else:
+                    purchase = interaction.message.embeds[0].fields[0].value
+                    customer = interaction.message.embeds[0].fields[1].value
+                    await interaction.guild.get_channel(588438540090736657).send(embed=discord.Embed(title=f"Honor Shop Purchase {action}", description=f"Purchase {action} by {interaction.user.mention}", url=interaction.message.jump_url, color=interaction.message.embeds[0].color).add_field(name="Purchase", value=purchase, inline=False).add_field(name="Customer", value=customer, inline=False).set_author(name=f"{comuser} > {customer}"))
+                    await interaction.message.edit(view=None, embed=interaction.message.embeds[0].add_field(name=f"{action} By", value=interaction.user.mention, inline=False))
+            except:
                 return
-            else:
-                purchase = interaction.message.embeds[0].fields[0].value
-                customer = interaction.message.embeds[0].fields[1].value
-                await interaction.guild.get_channel(588438540090736657).send(embed=discord.Embed(title="Honor Shop Purchase Fulfilled", description=f"Purchase Fulfilled by {interaction.user.mention}", url=interaction.message.jump_url, color=interaction.message.embeds[0].color).add_field(name="Purchase", value=purchase, inline=False).add_field(name="Customer", value=customer, inline=False).set_author(name=f"{comuser} > {customer}"))
-                await interaction.message.edit(view=None, embed=interaction.message.embeds[0].add_field(name="Fulfilled By", value=interaction.user.mention, inline=False))
         except:
-            return
+            # this is complete overview Error handling, sends errors to testing server
+            i = await interaction.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=discord.Embed(title=f"[Error][{__class__.__name__}][{inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
+            print(f"[{__class__.__name__}][{inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
     @discord.ui.button(label="Deny",style=discord.ButtonStyle.red, custom_id="honorshop:deny")
     async def deny(self, interaction: discord.Interaction, button: discord.ui.Button):
-        await interaction.response.defer()
-        print(f"{interaction.user} pressed a honor shop deny button")
-        role = interaction.guild.get_role(1255328797981409340)
-        rostersheets, rosters = exportSheetData()
         try:
+            await interaction.response.defer()
+            print(f"{interaction.user} pressed a honor shop deny button")
+            role = interaction.guild.get_role(1255328797981409340)
+            rostersheets, rosters = exportSheetData()
             try:
-                comuser = discord_to_username([str(interaction.user.id)])[0]
-                rank = get_scgroup_rank([comuser])[comuser]['rank']
-            except:
-                if role not in interaction.user.roles:
-                    raise
-            if rank < 8 and role not in interaction.user.roles:
-                return
-            else:
-                purchase = interaction.message.embeds[0].fields[0].value
-                customer = interaction.message.embeds[0].fields[1].value
                 try:
-                    usrinfo = rosters[0].members[customer]
-                    rostersheets[0].update_cell(usrinfo["Row"], rosters[0].headers["Honor"], float(interaction.message.embeds[0].fields[-1].value) + float(usrinfo["Honor"]))
+                    comuser = discord_to_username([str(interaction.user.id)])[0]
+                    rank = get_scgroup_rank([comuser])[comuser]['rank']
                 except:
+                    if role not in interaction.user.roles:
+                        raise
+                if rank < 8 and role not in interaction.user.roles:
+                    return
+                else:
+                    purchase = interaction.message.embeds[0].fields[0].value
+                    customer = interaction.message.embeds[0].fields[1].value
                     try:
-                        usrinfo = rosters[1].members[customer]
-                        rostersheets[1].update_cell(usrinfo["Row"], rosters[1].headers["Honor"], float(interaction.message.embeds[0].fields[-1].value) + float(usrinfo["Honor"]))
+                        usrinfo = rosters[0].members[customer]
+                        rostersheets[0].update_cell(usrinfo["Row"], rosters[0].headers["Honor"], float(interaction.message.embeds[0].fields[-1].value) + float(usrinfo["Honor"]))
                     except:
-                        None
-                await interaction.guild.get_channel(588438540090736657).send(embed=discord.Embed(title="Honor Shop Purchase Denied", description=f"Purchase Denied by {interaction.user.mention}", url=interaction.message.jump_url, color=interaction.message.embeds[0].color).add_field(name="Purchase", value=purchase, inline=False).add_field(name="Customer", value=customer, inline=False).set_author(name=f"{comuser} > {customer}"))
-                await interaction.message.edit(view=None, embed=interaction.message.embeds[0].add_field(name="Denied By", value=f"{interaction.user.mention}\nIf Honor not replaced contact an Officer"))
+                        try:
+                            usrinfo = rosters[1].members[customer]
+                            rostersheets[1].update_cell(usrinfo["Row"], rosters[1].headers["Honor"], float(interaction.message.embeds[0].fields[-1].value) + float(usrinfo["Honor"]))
+                        except:
+                            None
+                    await interaction.guild.get_channel(588438540090736657).send(embed=discord.Embed(title="Honor Shop Purchase Denied", description=f"Purchase Denied by {interaction.user.mention}", url=interaction.message.jump_url, color=interaction.message.embeds[0].color).add_field(name="Purchase", value=purchase, inline=False).add_field(name="Customer", value=customer, inline=False).set_author(name=f"{comuser} > {customer}"))
+                    await interaction.message.edit(view=None, embed=interaction.message.embeds[0].add_field(name="Denied By", value=f"{interaction.user.mention}\nIf Honor not replaced contact an Officer"))
+            except:
+                print("Error in getting comuser or rank probably")
+                raise
         except:
-            print("Error in getting comuser or rank probably")
-            return
+            # this is complete overview Error handling, sends errors to testing server
+            i = await interaction.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=discord.Embed(title=f"[Error][{__class__.__name__}][{inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
+            print(f"[{__class__.__name__}][{inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
 
 class InacApprDeny(discord.ui.View):
     def __init__(self):
         super().__init__(timeout=None)
     @discord.ui.button(label="Approve",style=discord.ButtonStyle.green, custom_id="inac:approve")
     async def ack(self, interaction: discord.Interaction, button: discord.ui.Button):
-        await interaction.response.defer()
-        print(f"{interaction.user} pressed a inac:approve button")
-        rostersheets, rosters = exportSheetData()
         try:
+            await interaction.response.defer()
+            print(f"{interaction.user} pressed a inac:approve button")
+            rostersheets, rosters = exportSheetData()
+            try:
+                try:
+                    comuser = discord_to_username([str(interaction.user.id)])[0]
+                    rank = get_scgroup_rank([comuser])[comuser]['rank']
+                except:
+                    print("Not on roster.")
+                if rank < 8:
+                    return
+                else:
+                    user = interaction.message.embeds[0].fields[0].value
+                    start = interaction.message.embeds[0].fields[1].value
+                    end = interaction.message.embeds[0].fields[2].value
+                    reason = interaction.message.embeds[0].fields[3].value
+                    exemption = findall(r'\d\d/\d\d/\d\d\d\d', end)
+                    try:
+                        usrinfo = rosters[0].members[user]
+                        rostersheets[0].update_cell(usrinfo["Row"], rosters[0].headers["Exempt Until"], exemption[0])
+                    except:
+                        try:
+                            usrinfo = rosters[1].members[user]
+                            rostersheets[1].update_cell(usrinfo["Row"], rosters[1].headers["Exempt Until"], exemption[0])
+                        except:
+                            None
+                    await interaction.guild.get_channel(cfg.logchannel_ids[cfg.serverid_to_name[str(interaction.guild_id)]]).send(embed=discord.Embed(title="Inactivity Notice Request Approved", description=f"Inactivity Notice Request Approved by {interaction.user.mention}", url=interaction.message.jump_url, color=interaction.message.embeds[0].color).add_field(name="User", value=user, inline=False).add_field(name="Start", value=start, inline=False).add_field(name="End", value=end, inline=False).add_field(name="Start", value=reason, inline=False).set_author(name=f"{comuser} > {user}"))
+                    await interaction.message.edit(view=None, embed=interaction.message.embeds[0].add_field(name="Approved By", value=interaction.user.mention, inline=False))
+                    if interaction.guild_id == cfg.server_ids["Nothing To See Here"]:
+                        try:
+                            user = interaction.guild.get_member(username_to_discord_id([user])[0])
+                            await send_dm(user, content=f"Your Inactivity Notice in {cfg.serverid_to_name[str(interaction.guild.id)]} has been accepted.", embeds=interaction.message.embeds)
+                            await user.add_roles(interaction.guild.get_role(777273067511611422))
+                        except Exception as e:
+                            print("Error giving the role to the user or sending DM to user", e)
+            except:
+                return
+        except:
+            # this is complete overview Error handling, sends errors to testing server
+            i = await interaction.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=discord.Embed(title=f"[Error][{__class__.__name__}][{inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
+            print(f"[{__class__.__name__}][{inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
+    @discord.ui.button(label="Deny",style=discord.ButtonStyle.red, custom_id="inac:deny")
+    async def deny(self, interaction: discord.Interaction, button: discord.ui.Button):
+        try:
+            await interaction.response.defer()
+            print(f"{interaction.user} pressed a inac:deny button")
             try:
                 comuser = discord_to_username([str(interaction.user.id)])[0]
                 rank = get_scgroup_rank([comuser])[comuser]['rank']
             except:
-                print("Not on roster.")
+                print("Not on Roster.")
             if rank < 8:
                 return
             else:
@@ -413,50 +482,17 @@ class InacApprDeny(discord.ui.View):
                 start = interaction.message.embeds[0].fields[1].value
                 end = interaction.message.embeds[0].fields[2].value
                 reason = interaction.message.embeds[0].fields[3].value
-                exemption = findall(r'\d\d/\d\d/\d\d\d\d', end)
+                await interaction.guild.get_channel(cfg.logchannel_ids[cfg.serverid_to_name[str(interaction.guild_id)]]).send(embed=discord.Embed(title="Inactivity Notice Request Denied", description=f"Inactivity Notice Request Denied by {interaction.user.mention}", url=interaction.message.jump_url, color=interaction.message.embeds[0].color).add_field(name="User", value=user, inline=False).add_field(name="Start", value=start, inline=False).add_field(name="End", value=end, inline=False).add_field(name="Start", value=reason, inline=False).set_author(name=f"{comuser} > {user}"))
+                await interaction.message.edit(view=None, embed=interaction.message.embeds[0].add_field(name="Denied By", value=f"{interaction.user.mention}"))
                 try:
-                    usrinfo = rosters[0].members[user]
-                    rostersheets[0].update_cell(usrinfo["Row"], rosters[0].headers["Exempt Until"], exemption[0])
-                except:
-                    try:
-                        usrinfo = rosters[1].members[user]
-                        rostersheets[1].update_cell(usrinfo["Row"], rosters[1].headers["Exempt Until"], exemption[0])
-                    except:
-                        None
-                await interaction.guild.get_channel(cfg.logchannel_ids[cfg.serverid_to_name[str(interaction.guild_id)]]).send(embed=discord.Embed(title="Inactivity Notice Request Approved", description=f"Inactivity Notice Request Approved by {interaction.user.mention}", url=interaction.message.jump_url, color=interaction.message.embeds[0].color).add_field(name="User", value=user, inline=False).add_field(name="Start", value=start, inline=False).add_field(name="End", value=end, inline=False).add_field(name="Start", value=reason, inline=False).set_author(name=f"{comuser} > {user}"))
-                await interaction.message.edit(view=None, embed=interaction.message.embeds[0].add_field(name="Approved By", value=interaction.user.mention, inline=False))
-                if interaction.guild_id == cfg.server_ids["Nothing To See Here"]:
-                    try:
-                        user = interaction.guild.get_member(username_to_discord_id([user])[0])
-                        await send_dm(user, content=f"Your Inactivity Notice in {cfg.serverid_to_name[str(interaction.guild.id)]} has been accepted.", embeds=interaction.message.embeds)
-                        await user.add_roles(interaction.guild.get_role(777273067511611422))
-                    except Exception as e:
-                        print("Error giving the role to the user or sending DM to user", e)
+                    user = interaction.guild.get_member(username_to_discord_id([user])[0])
+                    await send_dm(user, content=f"Your Inactivity Notice in {cfg.serverid_to_name[str(interaction.guild.id)]} has been accepted.", embeds=interaction.message.embeds)
+                except Exception as e:
+                    print("Error sending DM to user", e)
         except:
-            return
-    @discord.ui.button(label="Deny",style=discord.ButtonStyle.red, custom_id="inac:deny")
-    async def deny(self, interaction: discord.Interaction, button: discord.ui.Button):
-        await interaction.response.defer()
-        print(f"{interaction.user} pressed a inac:deny button")
-        try:
-            comuser = discord_to_username([str(interaction.user.id)])[0]
-            rank = get_scgroup_rank([comuser])[comuser]['rank']
-        except:
-            print("Not on Roster.")
-        if rank < 8:
-            return
-        else:
-            user = interaction.message.embeds[0].fields[0].value
-            start = interaction.message.embeds[0].fields[1].value
-            end = interaction.message.embeds[0].fields[2].value
-            reason = interaction.message.embeds[0].fields[3].value
-            await interaction.guild.get_channel(cfg.logchannel_ids[cfg.serverid_to_name[str(interaction.guild_id)]]).send(embed=discord.Embed(title="Inactivity Notice Request Denied", description=f"Inactivity Notice Request Denied by {interaction.user.mention}", url=interaction.message.jump_url, color=interaction.message.embeds[0].color).add_field(name="User", value=user, inline=False).add_field(name="Start", value=start, inline=False).add_field(name="End", value=end, inline=False).add_field(name="Start", value=reason, inline=False).set_author(name=f"{comuser} > {user}"))
-            await interaction.message.edit(view=None, embed=interaction.message.embeds[0].add_field(name="Denied By", value=f"{interaction.user.mention}"))
-            try:
-                user = interaction.guild.get_member(username_to_discord_id([user])[0])
-                await send_dm(user, content=f"Your Inactivity Notice in {cfg.serverid_to_name[str(interaction.guild.id)]} has been accepted.", embeds=interaction.message.embeds)
-            except Exception as e:
-                print("Error sending DM to user", e)
+            # this is complete overview Error handling, sends errors to testing server
+            i = await interaction.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=discord.Embed(title=f"[Error][{__class__.__name__}][{inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
+            print(f"[{__class__.__name__}][{inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
 
 class ShopItems(discord.ui.View):
     cancel: bool = False

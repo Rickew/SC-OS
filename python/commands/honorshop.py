@@ -83,7 +83,7 @@ def setup(tree: app_commands.CommandTree, guild: Guild):
                     await intact.followup.send(embed=Embed(title="Error", description="You are not on the Roster.", color=cfg.embedcolors[cfg.serverid_to_name[str(intact.guild.id)]]))
                     return
             try:
-                if comuserinfo["Honor"] < ITEMS[item.name]["Cost"] or comuserinfo["Honor"] < 10:
+                if float(comuserinfo["Honor"]) < ITEMS[item.name]["Cost"] or float(comuserinfo["Honor"]) < 10:
                     await intact.followup.send(embed=Embed(title="Purchase Failed", description=f"You do not have enough honor to purchase item: {item.name}", color=cfg.embedcolors[cfg.serverid_to_name[str(intact.guild.id)]]))
                     return
             except:
@@ -261,7 +261,7 @@ def setup(tree: app_commands.CommandTree, guild: Guild):
                     json.dump(coupons, f, indent=2)
                     f.close()
             # if they can't buy it
-            if int(comuserinfo["Honor"]) < deduction:
+            if float(comuserinfo["Honor"]) < deduction:
                 await intact.edit_original_response(content=None, view=None, embed=Embed(title="Purchase Failed", color=cfg.embedcolors[cfg.serverid_to_name[str(intact.guild_id)]], description=f"You do not have enough honor to purchase item: {item.name}: {optionselect.selection}"))
                 return
             
@@ -277,9 +277,9 @@ def setup(tree: app_commands.CommandTree, guild: Guild):
         except:
             # this is complete overview Error handling, sends errors to testing server
             i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][{inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
-            print(f"[User {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
+            print(f"[{inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
     
-    print(f"[Setup]{cfg.Success} Shop command setup complete for Guild: {guild.id}")
+    print(f"[Setup]{cfg.Success} shop command setup complete for Guild: {guild.id}")
 
         
 

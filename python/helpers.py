@@ -349,6 +349,21 @@ def get_scgroup_rank(users: list[str]) -> dict[dict[str,str|int]]:
             ranks.update({usr : {'rank' : -1, 'name' : ''}})
     return ranks
 
+def get_ncgroup_rank(users: list[str]) -> dict[dict[str,str|int]]:
+    ranks = {}
+    url = "https://groups.roblox.com/v1/users/{userId}/groups/roles"
+    for usr in users:
+        try:
+            uid = reqpost(url="https://users.roblox.com/v1/usernames/users", json={"usernames" : [usr], "excludeBannedUsers" : True}).json()["data"][0]["id"]
+            r = reqget(url=url.replace("{userId}", str(uid))).json()['data']
+            for group in r:
+                if group['group']['id'] == 4965800:
+                    ranks.update({usr : group['role']['name']})
+            ranks[usr]
+        except:
+            ranks.update({usr : ''})
+    return ranks
+
 def remove_bottom_row(rostersheet: Worksheet, string: str) -> list[Cell]:
     cells = rostersheet.findall(string)
     if not cells:
