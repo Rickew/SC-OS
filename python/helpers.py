@@ -180,7 +180,7 @@ async def rblx_disc_IDsync(bot: commands.Bot):
     members = await members.flatten()
 
     if os.path.exists(get_local_path("data\\IDroster.json")):
-        if idrostersanitize(bot):
+        if await idrostersanitize(bot):
             print("Sanitization Completed")
         else:
             print("Sanitization Failed, how did you even get here?")
