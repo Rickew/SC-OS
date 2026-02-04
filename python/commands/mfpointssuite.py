@@ -48,7 +48,7 @@ def setup(tree: app_commands.CommandTree):
     @app_commands.choices(category=NCOoptions)
     async def nco(intact: Interaction, user: Member, category: app_commands.Choice[int], addsub:app_commands.Choice[int], amount: float):
         try:
-            print(f"[Points nco] command ran by {intact.user} in {intact.guild.name}")
+            print(f"{cfg.logstamp()}[Points nco] command ran by {intact.user} in {intact.guild.name}")
             await intact.response.defer(thinking=True, ephemeral=True)
             try:
                 comuser = discord_to_username([str(intact.user.id)])[0]
@@ -83,7 +83,7 @@ def setup(tree: app_commands.CommandTree):
         except:
             # this is complete overview Error handling, sends errors to testing server
             i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Points {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
-            print(f"[Points {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
+            print(f"{cfg.logstamp()}[Points {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
         
 
     # This command allows the editing of points for an officer on the Roster.
@@ -133,7 +133,7 @@ def setup(tree: app_commands.CommandTree):
         except:
             # this is complete overview Error handling, sends errors to testing server
             i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Points {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
-            print(f"[Points {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
+            print(f"{cfg.logstamp()}[Points {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
 
         
     # View the points of an NCO or Officer.
@@ -191,7 +191,7 @@ def setup(tree: app_commands.CommandTree):
         except:
             # this is complete overview Error handling, sends errors to testing server
             i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Points {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
-            print(f"[Points {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
+            print(f"{cfg.logstamp()}[Points {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
 
 
     # Refresh the Catergories for NCO and CO Roster.
@@ -227,6 +227,6 @@ def setup(tree: app_commands.CommandTree):
         except:
             # this is complete overview Error handling, sends errors to testing server
             i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Points {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
-            print(f"[Points {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
+            print(f"{cfg.logstamp()}[Points {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
 
-    print(f"[Setup]{cfg.Success} Points command group setup complete")
+    print(f"{cfg.logstamp()}[Setup]{cfg.Success} Points command group setup complete")

@@ -128,7 +128,7 @@ def setup(tree: app_commands.CommandTree):
         except:
             # this is complete overview Error handling, sends errors to testing server
             i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][NTSH Blacklist{inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
-            print(f"[NTSH Blacklist {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
+            print(f"{cfg.logstamp()}[NTSH Blacklist {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
 
 
     # Marks the blacklist as appealed.
@@ -193,7 +193,7 @@ def setup(tree: app_commands.CommandTree):
         except:
             # this is complete overview Error handling, sends errors to testing server
             i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][NTSH Blacklist{inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
-            print(f"[NTSH Blacklist {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
+            print(f"{cfg.logstamp()}[NTSH Blacklist {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
 
 
 
@@ -231,7 +231,7 @@ def setup(tree: app_commands.CommandTree):
         except:
             # this is complete overview Error handling, sends errors to testing server
             i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][NTSH Blacklist{inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
-            print(f"[NTSH Blacklist {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
+            print(f"{cfg.logstamp()}[NTSH Blacklist {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
     
 
-    print(f"[Setup]{cfg.Success} NTSH Blacklist command group setup complete")
+    print(f"{cfg.logstamp()}[Setup]{cfg.Success} NTSH Blacklist command group setup complete")

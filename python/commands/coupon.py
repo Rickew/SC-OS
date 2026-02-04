@@ -61,7 +61,7 @@ def setup(tree: app_commands.CommandTree, guild: Guild):
     @app_commands.describe(users="The users you want to give the coupon to.")
     async def coupon(intact: Interaction, item: app_commands.Choice[int], discount: app_commands.Choice[int], users: str):
         try:
-            print(f"[coupon] command ran by {intact.user} in {intact.guild.name}")
+            print(f"{cfg.logstamp()}[coupon] command ran by {intact.user} in {intact.guild.name}")
             await intact.response.defer(thinking=True, ephemeral=True)
             try:
                 comuser = discord_to_username([str(intact.user.id)])[0]
@@ -118,6 +118,6 @@ def setup(tree: app_commands.CommandTree, guild: Guild):
         except:
             # this is complete overview Error handling, sends errors to testing server
             i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][{inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
-            print(f"[{inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
+            print(f"{cfg.logstamp()}[{inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
 
-    print(f"[Setup]{cfg.Success} Coupon command setup complete for Guild: {guild.id}")
+    print(f"{cfg.logstamp()}[Setup]{cfg.Success} Coupon command setup complete for Guild: {guild.id}")

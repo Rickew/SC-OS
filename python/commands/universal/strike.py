@@ -26,7 +26,7 @@ def setup(tree: app_commands.CommandTree, guild: Guild):
     @app_commands.describe(log_link="The message link to the punishment log.")
     async def strike(intact: Interaction, user: Member, log_link: str):
         try:
-            print(f"[strike] Command used by {intact.user} in server: {intact.guild.name}")
+            print(f"{cfg.logstamp()}[strike] command used by {intact.user} in server: {intact.guild.name}")
             await intact.response.defer(thinking=True, ephemeral=True)
             rostersheets, rosters = exportSheetData()
 
@@ -78,16 +78,16 @@ def setup(tree: app_commands.CommandTree, guild: Guild):
                         if ("Medal", "Star", "Finest") not in role.name:
                             await user.remove_roles(role.id)
                     except:
-                        print(f"[strike]{cfg.Error} removing role \"{role.name}\" from {user}:", e)
+                        print(f"{cfg.logstamp()}[strike]{cfg.Error} removing role \"{role.name}\" from {user}:", e)
                 try:
                     await user.add_roles(user.guild.get_role(773221920485015552))
                 except Exception as e:
-                    print(f"[strike]{cfg.Error} adding veteran role to {user}:", e)
+                    print(f"{cfg.logstamp()}[strike]{cfg.Error} adding veteran role to {user}:", e)
             elif division == "Nothing To See Here":
                 try:
                     await user.add_roles(intact.guild.get_role(759756623484289044))
                 except Exception as e:
-                    print(f"[strike]{cfg.Error} adding striked role to {usr}", e)
+                    print(f"{cfg.logstamp()}[strike]{cfg.Error} adding striked role to {usr}", e)
             
             # embed creation
             embed = Embed(title=f"Strike Given", description=f"Strike given to {user.mention} by {intact.user.mention}", color=cfg.embedcolors[division])
@@ -109,7 +109,7 @@ def setup(tree: app_commands.CommandTree, guild: Guild):
         except:
             # this is complete overview Error handling, sends errors to testing server
             i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][{inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
-            print(f"[{inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
+            print(f"{cfg.logstamp()}[{inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
     
-    print(f"[Setup]{cfg.Success} strike command setup complete for Guild: {guild.id}")
+    print(f"{cfg.logstamp()}[Setup]{cfg.Success} strike command setup complete for Guild: {guild.id}")
     

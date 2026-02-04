@@ -101,7 +101,7 @@ def parseExpiration(expiration: str):
     return f"<t:{timestamp}:F> <t:{timestamp}:R>"
 
 async def sendhit(intact: Interaction, user: str, num: str, reason: str, bounty: str, style: app_commands.Choice[int] = None, expiration: str = "1w", ping: bool = False, authorization: str = None, run = False):
-        print(f"[Hit send] Command ran by {intact.user} in {intact.guild.name}")
+        print(f"{cfg.logstamp()}[Hit send] command ran by {intact.user} in {intact.guild.name}")
         if not run:
             await intact.response.defer(thinking=True, ephemeral=True)
         try:
@@ -215,7 +215,7 @@ def setup(tree: app_commands.CommandTree):
         except:
             # this is complete overview Error handling, sends errors to testing server
             i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Hit {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
-            print(f"[Hit {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
+            print(f"{cfg.logstamp()}[Hit {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
     
 
 
@@ -239,7 +239,7 @@ def setup(tree: app_commands.CommandTree):
         app_commands.Choice(name="Revoked", value=4)])
     async def update(intact: Interaction, targetname: str = None, newname: str = None, reason: str = None, amount: str = None, style: app_commands.Choice[int] = None, bounty: str = None, expiration: str = None, status: app_commands.Choice[int] = None, authorization: str = None):
         try:
-            print(f"[Hit update] Command ran by {intact.user} in {intact.guild.name}")
+            print(f"{cfg.logstamp()}[Hit update] command ran by {intact.user} in {intact.guild.name}")
             await intact.response.defer(ephemeral=True,thinking=True)
             try:
                 comuser = discord_to_username([str(intact.user.id)])[0]
@@ -379,14 +379,14 @@ def setup(tree: app_commands.CommandTree):
         except:
             # this is complete overview Error handling, sends errors to testing server
             i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][NTSH Blacklist{inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
-            print(f"[NTSH Hit {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
+            print(f"{cfg.logstamp()}[NTSH Hit {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
     
 
 
     @hit.command(name="delete", description= "Deletes specified hit.")
     async def delete(intact: Interaction):
         try:
-            print(f"[Hit delete] Command ran by {intact.user} in {intact.guild.name}")
+            print(f"{cfg.logstamp()}[Hit delete] command ran by {intact.user} in {intact.guild.name}")
             hitchannel = intact.guild.get_channel(1328547186006425773)
             try:
                 if intact.channel.parent != hitchannel:
@@ -416,6 +416,6 @@ def setup(tree: app_commands.CommandTree):
         except:
             # this is complete overview Error handling, sends errors to testing server
             i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][NTSH Blacklist{inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
-            print(f"[NTSH Hit {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
+            print(f"{cfg.logstamp()}[NTSH Hit {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
     
-    print(f"[Setup]{cfg.Success} NTSH Hit command group setup complete")
+    print(f"{cfg.logstamp()}[Setup]{cfg.Success} NTSH Hit command group setup complete")

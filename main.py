@@ -25,11 +25,11 @@ async def on_message(message: Message):
 
                 # parse name
                 user = message.embeds[0].author.name.replace("SESSION END", "").strip().strip("()")
-                print(f"{user=}")
+                # print(f"{user=}")
 
                 # parse total time
                 totaltime = int(message.embeds[0].fields[1].value.replace("minute(s)", "").strip())
-                print(f"{totaltime=}")
+                # print(f"{totaltime=}")
 
                 # update the db
                 with open(get_local_path("data/totaltimes.json"), "r") as f:
@@ -75,7 +75,7 @@ async def on_message(message: Message):
     except:
         # this is complete overview Error handling, sends errors to testing server
         i = await bot.tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Activity-Logger]", description=format_exc(2)))
-        print(f"[Activity-Logger]{cfg.Error}", i.jump_url)
+        print(f"{cfg.logstamp()}[on_message]{cfg.Error}", i.jump_url)
 
 
 
@@ -111,18 +111,18 @@ async def on_ready():
     guildcommands = [shop, coupon, Strike]
     
     guilds = []
-    print(f"[Setup] Starting")
+    print(f"{cfg.logstamp()}[Setup] Starting")
 
     # adding persistant buttons
     bot.add_view(ApprAckDeny())
     bot.add_view(ApproveDenyHit())
     bot.add_view(InacApprDeny())
-    print(f"[Setup]{cfg.Success} Persistant views added")
+    print(f"{cfg.logstamp()}[Setup]{cfg.Success} Persistant views added")
     
     # registering the globals
     for x in globalcommands:
         x(bot.tree)
-    print(f"[Setup]{cfg.Success} Global commands setup")
+    print(f"{cfg.logstamp()}[Setup]{cfg.Success} Global commands setup")
     
     # register guild commands
     for x in guildcommands:
@@ -130,18 +130,18 @@ async def on_ready():
             x.setup(bot.tree, guild=Object(id=gid))
             if gid not in guilds:
                 guilds.append(gid)
-    print(f"[Setup]{cfg.Success} Guild commands setup")
+    print(f"{cfg.logstamp()}[Setup]{cfg.Success} Guild commands setup")
 
     # Sync global commands
     await bot.tree.sync()
-    print(f"[Setup]{cfg.Success} Global command sync")
+    print(f"{cfg.logstamp()}[Setup]{cfg.Success} Global command sync")
 
     # Sync guild commands
     for gid in guilds:
         await bot.tree.sync(guild=Object(id=gid))
-        print(f"[Setup]{cfg.Success} Synced guild commands for {gid}: {bot.get_guild(gid).name}")
+        print(f"{cfg.logstamp()}[Setup]{cfg.Success} Synced guild commands for {gid}: {bot.get_guild(gid).name}")
 
-    print(f"[Setup]{cfg.Success} Finished")
+    print(f"{cfg.logstamp()}[Setup]{cfg.Success} Finished")
     thread.start()
     consolethread.start()
 

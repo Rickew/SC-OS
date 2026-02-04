@@ -32,7 +32,7 @@ def setup(tree: app_commands.CommandTree):
     @inac.command(name="notice", description="Request an Inactivity Notice, or remove your Active Notice.")
     async def notice(intact: Interaction):
         try:
-            print(f"[Inactivity notice] Command ran by {intact.user} in server {intact.guild.name}")
+            print(f"{cfg.logstamp()}[Inactivity notice] command ran by {intact.user} in server {intact.guild.name}")
 
             # resolve comuser
             rostersheets, rosters = exportSheetData()
@@ -75,7 +75,7 @@ def setup(tree: app_commands.CommandTree):
                     try:
                         await intact.user.remove_roles(intact.guild.get_role(777273067511611422))
                     except Exception as e:
-                        print(f"[Inactivity notice]{cfg.Error} removing inactivity role from the user.", e)
+                        print(f"{cfg.logstamp()}[Inactivity notice]{cfg.Error} removing inactivity role from the user.", e)
                         
                 # send confimation
                 await intact.response.send_message("OVETIME notice removed.", ephemeral=True)
@@ -95,7 +95,7 @@ def setup(tree: app_commands.CommandTree):
                         try:
                             await intact.user.remove_roles(intact.guild.get_role(777273067511611422))
                         except Exception as e:
-                            print(f"[Inactivity notice]{cfg.Error} removing the inactivity role from the user.", e)
+                            print(f"{cfg.logstamp()}[Inactivity notice]{cfg.Error} removing the inactivity role from the user.", e)
 
                     # Parse potential date into a timestamp
                     intdate = int(datetime.strptime(date, r'%m/%d/%Y').timestamp())
@@ -153,7 +153,7 @@ def setup(tree: app_commands.CommandTree):
         except:
             # this is complete overview Error handling, sends cfg.Errors to testing server
             i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Inactivity {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
-            print(f"[Inactivity {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
+            print(f"{cfg.logstamp()}[Inactivity {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
     
 
     # Access command for manipulating a users exemption cell, allows the user to remove an exiting OVERTIME or Inactivity Notice, or do a notice for them.
@@ -163,7 +163,7 @@ def setup(tree: app_commands.CommandTree):
     @inac.command(name="override", description="Request an Inactivity Notice, or remove your Active Notice.")
     async def override(intact: Interaction, user: Member):
         try:
-            print(f"[Inactivity override] Command ran by {intact.user} in server {intact.guild.name}")
+            print(f"{cfg.logstamp()}[Inactivity override] command ran by {intact.user} in server {intact.guild.name}")
             rostersheets, rosters = exportSheetData()
 
             # comuser resolutino
@@ -227,7 +227,7 @@ def setup(tree: app_commands.CommandTree):
                     try:
                         await user.remove_roles(intact.guild.get_role(777273067511611422))
                     except Exception as e:
-                        print(f"[Inactivity override]{cfg.Error} removing the role to the user.", e)
+                        print(f"{cfg.logstamp()}[Inactivity override]{cfg.Error} removing the role to the user.", e)
 
                 # send confirmation and a log to server logs, also a DM to the user
                 await intact.response.send_message("OVETIME notice removed.", ephemeral=True)
@@ -248,7 +248,7 @@ def setup(tree: app_commands.CommandTree):
                         try:
                             await intact.user.remove_roles(intact.guild.get_role(777273067511611422))
                         except Exception as e:
-                            print(f"[Inactivity notice]{cfg.Error} removing the inactivity role from the user.", e)
+                            print(f"{cfg.logstamp()}[Inactivity notice]{cfg.Error} removing the inactivity role from the user.", e)
 
                     # Parse potential date into a timestamp
                     intdate = int(datetime.strptime(date, r'%m/%d/%Y').timestamp())
@@ -305,7 +305,7 @@ def setup(tree: app_commands.CommandTree):
                     try:
                         await user.add_roles(intact.guild.get_role(777273067511611422))
                     except Exception as e:
-                        print(f"[Inactivity override]{cfg.Error} giving the role to the user.", e)
+                        print(f"{cfg.logstamp()}[Inactivity override]{cfg.Error} giving the role to the user.", e)
                 
                 # send log and dm
                 await send_dm(user, content=f"An Inactivity Notice has been submitted on your behalf by an officer, if you believe this to be a mistake, you can remove it yourself by useing the `/inactivity notice` command.")
@@ -314,6 +314,6 @@ def setup(tree: app_commands.CommandTree):
         except:
             # this is complete overview Error handling, sends cfg.Errors to testing server
             i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Inactivity {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
-            print(f"[Inactivity {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
+            print(f"{cfg.logstamp()}[Inactivity {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
 
-    print(f"[Setup]{cfg.Success} Inactivity command group setup complete")
+    print(f"{cfg.logstamp()}[Setup]{cfg.Success} Inactivity command group setup complete")

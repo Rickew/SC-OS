@@ -26,7 +26,7 @@ GUILD_IDS = [
 async def rosteradd(tree: app_commands.CommandTree, intact: Interaction, user: Member, division: app_commands.Choice[int], rankselect: bool = False, overtime: bool = True, run: bool = False):
     # this is used for more than 1 command
     if not run:
-        print(f"[Roster add] Command ran by {intact.user} in {intact.guild.name}")
+        print(f"{cfg.logstamp()}[Roster add] command ran by {intact.user} in {intact.guild.name}")
         await intact.response.defer(ephemeral=True, thinking=True)
         
     # comuser resolution
@@ -234,7 +234,7 @@ async def rosteradd(tree: app_commands.CommandTree, intact: Interaction, user: M
     return True
 
 async def time(tree: app_commands.CommandTree, intact: Interaction, addsub: app_commands.Choice[int], users: str, amount: float):
-        print(f"[Roster quickedit][time] command ran by {intact.user} in {intact.guild.name}")
+        print(f"{cfg.logstamp()}[Roster quickedit][time] command ran by {intact.user} in {intact.guild.name}")
         await intact.response.defer(thinking=True, ephemeral=True)
         resultsembed = Embed(title="Errors")
 
@@ -312,7 +312,7 @@ async def time(tree: app_commands.CommandTree, intact: Interaction, addsub: app_
         return True
 
 async def multifunction(tree: app_commands.CommandTree, option, intact: Interaction, addsub: app_commands.Choice[int], users: str, amount: int):
-    print(f"[Roster quickedit][{option.lower()}] Command ran by {intact.user} in {intact.guild.name}")
+    print(f"{cfg.logstamp()}[Roster quickedit][{option.lower()}] command ran by {intact.user} in {intact.guild.name}")
     await intact.response.defer(thinking=True, ephemeral=True)
     resultsembed = Embed(title="Errors")
 
@@ -416,7 +416,7 @@ def setup(tree: app_commands.CommandTree):
         except:
             # this is complete overview Error handling, sends errors to testing server
             i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Roster {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
-            print(f"[Roster {inspect.currentframe().f_code.co_name}][{option.name}]{cfg.Error}", i.jump_url)
+            print(f"{cfg.logstamp()}[Roster {inspect.currentframe().f_code.co_name}][{option.name}]{cfg.Error}", i.jump_url)
 
 
     # This command adds a user to the roster, with optional rank selection, and OVERTIME notice
@@ -440,7 +440,7 @@ def setup(tree: app_commands.CommandTree):
         except:
             # this is complete overview Error handling, sends errors to testing server
             i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Roster {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
-            print(f"[Roster {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
+            print(f"{cfg.logstamp()}[Roster {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
     
 
     # Deletes a user from the roster.
@@ -450,7 +450,7 @@ def setup(tree: app_commands.CommandTree):
     @app_commands.describe(user="The user you want to delete from the roster.")
     async def delete(intact: Interaction, user: str):
         try:
-            print(f"[Roster delete] command ran by {intact.user} in {intact.guild.name}")
+            print(f"{cfg.logstamp()}[Roster delete] command ran by {intact.user} in {intact.guild.name}")
             # some quick command rank locking and comuser resolution
             try:
                 comuser = discord_to_username([str(intact.user.id)])[0]
@@ -512,7 +512,7 @@ def setup(tree: app_commands.CommandTree):
         except:
             # this is complete overview Error handling, sends errors to testing server
             i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Roster {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
-            print(f"[Roster {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
+            print(f"{cfg.logstamp()}[Roster {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
 
 
     # Transfers a user from 1 roster to another.
@@ -529,7 +529,7 @@ def setup(tree: app_commands.CommandTree):
         app_commands.Choice(name="Nothing To See Here", value=5)])
     async def transfer(intact: Interaction, user: Member, transferto: app_commands.Choice[int], overtime: bool = True):
         try:
-            print(f"[Roster transfer] command ran by {intact.user} in {intact.guild.name}")
+            print(f"{cfg.logstamp()}[Roster transfer] command ran by {intact.user} in {intact.guild.name}")
             await intact.response.defer(thinking=True, ephemeral=True)
             # should do some ranklocking here
             # unsure if this is needed though, I think roster_add takes care of all of it anyway.
@@ -603,7 +603,7 @@ def setup(tree: app_commands.CommandTree):
         except:
             # this is complete overview Error handling, sends errors to testing server
             i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Roster {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
-            print(f"[Roster {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
+            print(f"{cfg.logstamp()}[Roster {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
 
 
     # allows the editing of the rest of the user cells on the roster, such as activity strikes, removing strikes, editing the notes cell, and marking manual quotas
@@ -612,7 +612,7 @@ def setup(tree: app_commands.CommandTree):
     @roster.command(name="edit", description="Edit a user on the Roster.")
     async def edit(intact: Interaction, user: Member):
         try:
-            print(f"[Roster edit] command ran by {intact.user} in {intact.guild.name}")
+            print(f"{cfg.logstamp()}[Roster edit] command ran by {intact.user} in {intact.guild.name}")
             await intact.response.defer(thinking=True, ephemeral=True)
 
             # get division
@@ -855,6 +855,6 @@ def setup(tree: app_commands.CommandTree):
         except:
             # this is complete overview Error handling, sends errors to testing server
             i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Roster {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
-            print(f"[Roster {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
+            print(f"{cfg.logstamp()}[Roster {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
         
-    print(f"[Setup]{cfg.Success} Roster command group setup complete")
+    print(f"{cfg.logstamp()}[Setup]{cfg.Success} Roster command group setup complete")

@@ -94,7 +94,7 @@ def check_can_view_inventory(user_id: str) -> bool:
     # If we get a 429 status, wait and retry with some backoff
     retry_after = 5
     while response.status_code == 429:
-        print(f"[Badge Graph] Rate limited. Retrying after {retry_after} seconds.")
+        print(f"{cfg.logstamp()}[Badge Graph] Rate limited. Retrying after {retry_after} seconds.")
         sleep(retry_after)
         response = requests.get(url)
         retry_after += 5
@@ -122,7 +122,7 @@ def fetch_badges(user_id: str) -> list[dict]:
         for badge in data['data']:
             badges.append(badge)
             if PRINT_PROGRESS and len(badges) % BATCH_PER_PRINT == 0:
-                print(f"[Badge Graph] {len(badges)} badges for {user_id} requested.")
+                print(f"{cfg.logstamp()}[Badge Graph] {len(badges)} badges for {user_id} requested.")
 
         if data['nextPageCursor']:
             cursor = data['nextPageCursor']
@@ -172,10 +172,10 @@ def fetch_award_dates(user_id: str, badges: list[dict]) -> list[str]:
             for badge in response.json()["data"]:
                 dates.append(badge["awardedDate"])
                 if PRINT_PROGRESS and len(dates) % BATCH_PER_PRINT == 0:
-                    print(f"[Badge Graph] {len(dates)} awarded dates for {user_id} requested.")
+                    print(f"{cfg.logstamp()}[Badge Graph] {len(dates)} awarded dates for {user_id} requested.")
 
         except Exception as e:
-            print(f"[Badge Graph] Error fetching data: {e}")
+            print(f"{cfg.logstamp()}[Badge Graph] Error fetching data: {e}")
 
     return dates
 
@@ -219,7 +219,7 @@ def process_user(username: str):
     """
     user_id = get_user_id_from_username(username)
     can_view_inventory = check_can_view_inventory(user_id)
-    print(f"[Badge Graph] {username}: {user_id}, Can view inventory: {can_view_inventory}")
+    print(f"{cfg.logstamp()}[Badge Graph] {username}: {user_id}, Can view inventory: {can_view_inventory}")
     if not can_view_inventory:
         return
     badges = fetch_badges(user_id)

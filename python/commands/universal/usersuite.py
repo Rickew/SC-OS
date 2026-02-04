@@ -106,7 +106,7 @@ def setup(tree: app_commands.CommandTree):
     @app_commands.describe(user="The user who's info you want to display.")
     async def info(intact: Interaction, user: Member = None):
         try:
-            print(f"[User info] command ran by {intact.user} in {intact.guild.name}")
+            print(f"{cfg.logstamp()}[User info] command ran by {intact.user} in {intact.guild.name}")
             await intact.response.defer(thinking=True, ephemeral=True)
             try:
                 if user:
@@ -137,7 +137,7 @@ def setup(tree: app_commands.CommandTree):
         except:
             # this is complete overview Error handling, sends errors to testing server
             i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][{inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
-            print(f"[User {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
+            print(f"{cfg.logstamp()}[User {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
 
 
     # This is a developer command, and should only really need to be used by the dev, however if access is needed, it has an enabled users list, which will allow the use of the command.
@@ -151,7 +151,7 @@ def setup(tree: app_commands.CommandTree):
             if intact.user.id not in enabled_users:
                 await intact.response.send_message("You're not allowed to run this command.")
                 return
-            print(f"[User syncuid] command ran by {intact.user} in {intact.guild.name}")
+            print(f"{cfg.logstamp()}[User syncuid] command ran by {intact.user} in {intact.guild.name}")
             await intact.response.defer(ephemeral=True, thinking=True)
             try:
                 await single_UID_sync(tree, discID=user.id)
@@ -165,7 +165,7 @@ def setup(tree: app_commands.CommandTree):
         except:
             # this is complete overview Error handling, sends errors to testing server
             i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][{inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
-            print(f"[User {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
+            print(f"{cfg.logstamp()}[User {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
         
 
     # This is an officer command used to show discrempancies in membership of users, between the group, discord, and roster.
@@ -324,7 +324,7 @@ def setup(tree: app_commands.CommandTree):
         except:
             # this is complete overview Error handling, sends errors to testing server
             i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][{inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
-            print(f"[User {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
+            print(f"{cfg.logstamp()}[User {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
     
 
     # This command is mostly meant for use by TFDs to do a simple, yet decent background check on users trying to join either mid tryout, or post tryout. This command is far from an exhaustive background check, see details below.
@@ -336,7 +336,7 @@ def setup(tree: app_commands.CommandTree):
     async def bgc(intact: Interaction, user: str, badgegraph: bool = False):
         try:
             await intact.response.defer(thinking=True)
-            print(f"[User bgc] command used by {intact.user} in {intact.guild.name}")
+            print(f"{cfg.logstamp()}[User bgc] command used by {intact.user} in {intact.guild.name}")
             try:
                 comuser = discord_to_username([str(intact.user.id)])[0]
             except:
@@ -369,7 +369,7 @@ def setup(tree: app_commands.CommandTree):
                             break
                     break
                 except Exception as e:
-                    print(f"[User bgc] getting rate limited on prior usernames")
+                    print(f"{cfg.logstamp()}[User bgc] getting rate limited on prior usernames")
             creationdate = rblxuser.created
             dispname = rblxuser.display_name
             if badgegraph:
@@ -453,7 +453,7 @@ def setup(tree: app_commands.CommandTree):
         except:
             # this is complete overview Error handling, sends errors to testing server
             i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][{inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
-            print(f"[User {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
+            print(f"{cfg.logstamp()}[User {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
 
 
     # This is used to switch the username of a person on the roster, and to hopefully sync their new id with the bot.
@@ -514,6 +514,6 @@ def setup(tree: app_commands.CommandTree):
         except:
             # this is complete overview Error handling, sends errors to testing server
             i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][{inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
-            print(f"[User {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
+            print(f"{cfg.logstamp()}[User {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
     
-    print(f"[Setup]{cfg.Success} User command group setup complete")
+    print(f"{cfg.logstamp()}[Setup]{cfg.Success} User command group setup complete")

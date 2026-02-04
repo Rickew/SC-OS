@@ -126,7 +126,7 @@ def setup(tree: app_commands.CommandTree):
     async def edit(intact: Interaction):
         try:
             # I am not commenting this fucking command, its 500 lines long, someone else can bother with that shit, maybe they can optimize it too, hell that'd be cool now wouldn't it.
-            print(f"[ShopItems edit] command ran by {intact.user} in {intact.guild.name}")
+            print(f"{cfg.logstamp()}[ShopItems edit] command ran by {intact.user} in {intact.guild.name}")
             await intact.response.defer(thinking=True, ephemeral=True)
 
             # rank lock
@@ -552,21 +552,21 @@ def setup(tree: app_commands.CommandTree):
             for gid in GUILD_IDS:
                 tree.remove_command("coupon", guild=Object(id=gid)) 
                 tree.remove_command("shop", guild=Object(id=gid))
-            print(f"[Shopitems edit]{cfg.Success} coupon and shop commands Removed")
+            print(f"{cfg.logstamp()}[Shopitems edit]{cfg.Success} coupon and shop commands Removed")
             
             for x in guildcommands:
                 for gid in x.GUILD_IDS:
                     x.setup(tree, guild=Object(id=gid))
-            print(f"[Shopitems edit]{cfg.Success} Guild commands Re-Setup complete")
+            print(f"{cfg.logstamp()}[Shopitems edit]{cfg.Success} Guild commands Re-Setup complete")
 
             # command resync
             for gid in GUILD_IDS:
                 await tree.sync(guild=Object(id=gid))
-                print(f"[Shopitems edit]{cfg.Success} Re-Synced guild commands for {gid}: {tree.client.get_guild(gid).name}")
+                print(f"{cfg.logstamp()}[Shopitems edit]{cfg.Success} Re-Synced guild commands for {gid}: {tree.client.get_guild(gid).name}")
         except:
             # this is complete overview Error handling, sends errors to testing server
             i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Shopitems {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
-            print(f"[Shopitems {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
+            print(f"{cfg.logstamp()}[Shopitems {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
 
     # Allows regular users to view the honor shop items
     # - Universal Command
@@ -574,7 +574,7 @@ def setup(tree: app_commands.CommandTree):
     @shopitems.command(name="view", description="View the Honor Shop Items")
     async def view(intact: Interaction):
         try:
-            print(f"[ShopItems view] command ran by {intact.user} in {intact.guild.name}")
+            print(f"{cfg.logstamp()}[ShopItems view] command ran by {intact.user} in {intact.guild.name}")
             await intact.response.defer(thinking=True, ephemeral=True)
             load_options(intact.guild)
             while True:
@@ -609,7 +609,11 @@ def setup(tree: app_commands.CommandTree):
                     await sleep(1)
                     i+=1
                     if i >= 100:
+                        await intact.delete_original_response()
                         return
+                if view.cancel:
+                    await intact.delete_original_response()
+                    return
                 while True:
                     view = CancelorBack()
                     x = ITEMS[select.selection]
@@ -634,6 +638,6 @@ def setup(tree: app_commands.CommandTree):
         except:
             # this is complete overview Error handling, sends errors to testing server
             i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Shopitems {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
-            print(f"[Shopitems {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
+            print(f"{cfg.logstamp()}[Shopitems {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
 
-    print(f"[Setup]{cfg.Success} Shopitems command group setup complete")
+    print(f"{cfg.logstamp()}[Setup]{cfg.Success} Shopitems command group setup complete")
