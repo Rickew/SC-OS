@@ -459,6 +459,8 @@ def setup(tree: app_commands.CommandTree):
                         except:
                             break
                     await intact.followup.send(embeds=temp)
+            else:
+                    await intact.followup.send(embeds=embeds)
             if badgegraph:
                 await intact.followup.send(embed=badgeembed, file=file)
             return

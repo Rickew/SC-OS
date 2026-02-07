@@ -373,7 +373,6 @@ def bgc_group_roles(users: list[str]) -> list[Embed]:
                     retembeds.append(Embed(color=0xa80303))
                     y+=1
         except Exception as e:
-            raise e
             return [Embed(title="Error", description="Error getting groups.")]
     return retembeds
 
