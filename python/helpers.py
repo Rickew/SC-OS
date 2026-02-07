@@ -364,7 +364,7 @@ def bgc_group_roles(users: list[str]) -> list[Embed]:
                 r2 = reqget(url=url2.replace("{groupid}", str(group['group']['id']))).json()
                 r2 = r2['roles'][1]
                 if group['role']['rank'] == r2['rank']:
-                    retembeds[y].add_field(name=f"{group['group']['name']}\nMembers: `{group['group']['memberCount']}`", value=f"{group['role']['name']}\n**Lowest Rank**")
+                    retembeds[y].add_field(name=f"{group['group']['name']}", value=f"Members: `{group['group']['memberCount']}`\n{group['role']['name']}\n`Lowest Rank`")
                 else:
                     retembeds[y].add_field(name=f"{group['group']['name']}", value=f"{group['role']['name']}")
                 i += 1
