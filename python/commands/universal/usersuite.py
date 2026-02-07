@@ -1,4 +1,4 @@
-from python.helpers import exportSheetData, discord_to_username, single_UID_sync, idrostersanitize, get_scgroup_rank, trello_class_e_search, rotector_check
+from python.helpers import exportSheetData, discord_to_username, single_UID_sync, idrostersanitize, get_scgroup_rank, trello_class_e_search, rotector_check, bgc_group_roles
 from discord import Interaction, app_commands, Embed, Member, File
 from python.badgegraph import process_user, get_local_path
 from traceback import format_exc
@@ -332,8 +332,9 @@ def setup(tree: app_commands.CommandTree):
     # - Rank Locked
     @usersuite.command(name="bgc", description="Does a comprehensive background check on a user.")
     @app_commands.describe(user="Roblox username of the person you want to run a BGC on.")
-    @app_commands.describe(user="Roblox username of the person you want to run a BGC on.")
-    async def bgc(intact: Interaction, user: str, badgegraph: bool = False):
+    @app_commands.describe(badgegraph="Make this true if you want to check the badge graph for the user (heavy on api calls).")
+    @app_commands.describe(extended="Check this as true if you want a more extendsive BGC. (more alt checks)")
+    async def bgc(intact: Interaction, user: str, badgegraph: bool = False, extended: bool = False):
         try:
             await intact.response.defer(thinking=True)
             print(f"{cfg.logstamp()}[User bgc] command used by {intact.user} in {intact.guild.name}")
@@ -435,6 +436,9 @@ def setup(tree: app_commands.CommandTree):
             if len(blacklistembed.fields) <= 0:
                 blacklistembed.description = "Clean, No SC/RW Blacklist History."
             embeds.append(blacklistembed)
+            if extended:
+                groups_ranks_embed = bgc_group_roles([user]).color = 0xa80303
+                embeds.append(groups_ranks_embed)
             if badgegraph:
                 while badgethread.is_alive():
                     await sleep(2)
