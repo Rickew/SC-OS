@@ -350,26 +350,32 @@ def get_scgroup_rank(users: list[str]) -> dict[dict[str,str|int]]:
             ranks.update({usr : {'rank' : -1, 'name' : ''}})
     return ranks
 
-def bgc_group_roles(users: list[str]):
-    retembed = Embed(title="Groups & Ranks", color=0xa80303)
+def bgc_group_roles(users: list[str]) -> list[Embed]:
+    retembeds = [Embed(title="Groups & Ranks", color=0xa80303)]
+    y = 0
     url = "https://groups.roblox.com/v1/users/{userId}/groups/roles"
     url2 = "https://groups.roblox.com/v1/groups/{groupid}/roles"
     for usr in users:
         try:
             uid = reqpost(url="https://users.roblox.com/v1/usernames/users", json={"usernames" : [usr], "excludeBannedUsers" : True}).json()["data"][0]["id"]
             r = reqget(url=url.replace("{userId}", str(uid))).json()['data']
+            i = 1
             for group in r:
                 print(str(group['group']['id']))
                 r2 = reqget(url=url2.replace("{groupid}", str(group['group']['id']))).json()
                 print(r2)
                 r2 = r2['roles'][0]
                 if group['role']['rank'] == r2['rank']:
-                    retembed.add_field(name=f"{group['group']['name']}\nMembers: `{group['group']['memberCount']}`", value=f"{group['group']['role']['name']}\n**Lowest Rank**")
+                    retembeds[y].add_field(name=f"{group['group']['name']}\nMembers: `{group['group']['memberCount']}`", value=f"{group['group']['role']['name']}\n**Lowest Rank**")
                 else:
-                    retembed.add_field(name=f"{group['group']['name']}", value=f"{r2['name']}")
+                    retembeds[y].add_field(name=f"{group['group']['name']}", value=f"{r2['name']}")
+                i += 1
+                if i >= 24:
+                    retembeds.append(Embed(color=0xa80303))
+                    y+=1
         except Exception as e:
-            return Embed(title="Error", description="Error getting groups.")
-    return retembed
+            return [Embed(title="Error", description="Error getting groups.")]
+    return retembeds
 
 def get_ncgroup_rank(users: list[str]) -> dict[dict[str,str|int]]:
     ranks = {}
