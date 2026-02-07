@@ -359,14 +359,15 @@ def bgc_group_roles(users: list[str]):
             uid = reqpost(url="https://users.roblox.com/v1/usernames/users", json={"usernames" : [usr], "excludeBannedUsers" : True}).json()["data"][0]["id"]
             r = reqget(url=url.replace("{userId}", str(uid))).json()['data']
             for group in r:
-                r2 = reqget(url=url2.replace("{userId}", str(group['group']['id']))).json()['groupRoles'][0]
+                print(str(group['group']['id']))
+                r2 = reqget(url=url2.replace("{groupid}", str(group['group']['id']))).json()
+                print(r2)
+                r2 = r2['roles'][0]
                 if group['role']['rank'] == r2['rank']:
-                    retembed.add_field(name=f"{group['name']}\nMembers: `{group['memberCount']}`", value=f"{group['role']['name']}\n**Lowest Rank**")
+                    retembed.add_field(name=f"{group['group']['name']}\nMembers: `{group['group']['memberCount']}`", value=f"{group['group']['role']['name']}\n**Lowest Rank**")
                 else:
-                    retembed.add_field(name=f"{group['name']}", value=f"{r2['name']}")
-        except:
-            print(r)
-            print(r2)
+                    retembed.add_field(name=f"{group['group']['name']}", value=f"{r2['name']}")
+        except Exception as e:
             return Embed(title="Error", description="Error getting groups.")
     return retembed
 
