@@ -439,6 +439,7 @@ def setup(tree: app_commands.CommandTree):
             if extended:
                 groups_ranks_embeds = bgc_group_roles([user])
                 embeds += groups_ranks_embeds
+            await intact.followup.send(content=f"Background Check for: {user}")
             if badgegraph:
                 while badgethread.is_alive():
                     await sleep(2)
@@ -447,12 +448,19 @@ def setup(tree: app_commands.CommandTree):
                     file = File(get_local_path(f"data/badgegraphs/BadgeGraph-{uid}.png"),filename="graph.png")
                     badgeembed = Embed(title="Badge Graph (Alt Detection Assistance)", color=0xa80303, url="https://devforum.roblox.com/t/free-alt-detection-badge-history-graph-180k-uses/3546351")
                     badgeembed.set_image(url=f"attachment://graph.png")
-                    embeds.append(badgeembed)
-                    await intact.followup.send(content=f"Background Check for: {user}", embeds=embeds, file=file)
                 except:
                     badgeembed = Embed(title="Badge Graph (Alt Detection Assistance)", description="Users Iventory is Private, Canot View Badges.", color=0xa80303, url="https://devforum.roblox.com/t/free-alt-detection-badge-history-graph-180k-uses/3546351")
-            else:
-                await intact.followup.send(content=f"Background Check for: {user}", embeds=embeds)
+            if len(embeds) > 10:
+                for i in range(0, len(embeds), 10):
+                    temp = []
+                    for z in range(i, i+10):
+                        try:
+                            temp.append(embeds[z])
+                        except:
+                            break
+                    await intact.followup.send(embeds=temp)
+            if badgegraph:
+                await intact.followup.send(embed=badgeembed, file=file)
             return
         except:
             # this is complete overview Error handling, sends errors to testing server
