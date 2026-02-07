@@ -368,7 +368,7 @@ def bgc_group_roles(users: list[str]) -> list[Embed]:
                 else:
                     retembeds[y].add_field(name=f"{group['group']['name']}", value=f"{group['role']['name']}")
                 i += 1
-                if i >= 24:
+                if i >= 25:
                     i = 1
                     retembeds.append(Embed(color=0xa80303))
                     y+=1
