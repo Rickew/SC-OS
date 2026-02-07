@@ -359,7 +359,7 @@ def bgc_group_roles(users: list[str]):
             uid = reqpost(url="https://users.roblox.com/v1/usernames/users", json={"usernames" : [usr], "excludeBannedUsers" : True}).json()["data"][0]["id"]
             r = reqget(url=url.replace("{userId}", str(uid))).json()['data']
             for group in r:
-                r2 = reqget(url=url2.replace("{userId}", str(group['id']))).json()['groupRoles'][0]
+                r2 = reqget(url=url2.replace("{userId}", str(group['group']['id']))).json()['groupRoles'][0]
                 if group['role']['rank'] == r2['rank']:
                     retembed.add_field(name=f"{group['name']}\nMembers: `{group['memberCount']}`", value=f"{group['role']['name']}\n**Lowest Rank**")
                 else:
