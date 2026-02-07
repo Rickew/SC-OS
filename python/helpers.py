@@ -353,13 +353,13 @@ def get_scgroup_rank(users: list[str]) -> dict[dict[str,str|int]]:
 def bgc_group_roles(users: list[str]):
     retembed = Embed(title="Groups & Ranks")
     url = "https://groups.roblox.com/v1/users/{userId}/groups/roles"
-    url2 = "https://groups.roblox.com/v1/groups/[GROUP_ID]/roles"
+    url2 = "https://groups.roblox.com/v1/groups/{groupid}/roles"
     for usr in users:
         try:
             uid = reqpost(url="https://users.roblox.com/v1/usernames/users", json={"usernames" : [usr], "excludeBannedUsers" : True}).json()["data"][0]["id"]
             r = reqget(url=url.replace("{userId}", str(uid))).json()['data']
             for group in r:
-                r = reqget(url=url.replace("{userId}", str(uid))).json()['groupRoles'][0]
+                r = reqget(url=url2.replace("{userId}", str(group['id']))).json()['groupRoles'][0]
                 if group['role']['rank'] == r['rank']:
                     retembed.add_field(name=f"{group['name']}\nMembers: `{group['memberCount']}`", value=f"{group['role']['name']}\n**Lowest Rank**")
                 else:
