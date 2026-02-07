@@ -997,7 +997,7 @@ def setup(tree: app_commands.CommandTree):
             return
         except:
             # this is complete overview Error handling, sends errors to testing server
-            i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Quota {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
+            i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Quota {inspect.currentframe().f_code.co_name}]", description=format_exc(5)))
             print(f"{cfg.logstamp()}[Quota {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
         
 
@@ -1306,7 +1306,7 @@ def setup(tree: app_commands.CommandTree):
             return
         except:
             # this is complete overview Error handling, sends errors to testing server
-            i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Quota {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
+            i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Quota {inspect.currentframe().f_code.co_name}]", description=format_exc(5)))
             print(f"{cfg.logstamp()}[Quota {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
 
     print(f"{cfg.logstamp()}[Setup]{cfg.Success} Quota command group setup complete")

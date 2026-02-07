@@ -82,7 +82,7 @@ def setup(tree: app_commands.CommandTree):
             await intact.guild.get_channel(cfg.logchannel_ids["Main Force"]).send(embed=Embed(title="NCO Roster Points Changed", description=f"Points changed for {user.mention} by {intact.user.mention}", color=cfg.embedcolors["Main Force"]).add_field(name="Catergory", value=category.name).add_field(name="Amount", value=f"{val} -> {val+amount}").add_field(name="Total Points", value=f"{totalpoints.value} -> {newtotal.value}").set_author(name=f"{comuser} > {user}"))
         except:
             # this is complete overview Error handling, sends errors to testing server
-            i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Points {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
+            i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Points {inspect.currentframe().f_code.co_name}]", description=format_exc(5)))
             print(f"{cfg.logstamp()}[Points {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
         
 
@@ -132,7 +132,7 @@ def setup(tree: app_commands.CommandTree):
             await intact.guild.get_channel(cfg.logchannel_ids["Main Force"]).send(embed=Embed(title="CO Roster Points Changed", description=f"Points changed for {user.mention} by {intact.user.mention}", color=cfg.embedcolors["Main Force"]).add_field(name="Catergory", value=category.name).add_field(name="Amount", value=f"{val} -> {val+amount}").add_field(name="Total Points", value=f"{totalpoints.value} -> {newtotal.value}").set_author(name=f"{comuser} > {user}"))
         except:
             # this is complete overview Error handling, sends errors to testing server
-            i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Points {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
+            i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Points {inspect.currentframe().f_code.co_name}]", description=format_exc(5)))
             print(f"{cfg.logstamp()}[Points {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
 
         
@@ -190,7 +190,7 @@ def setup(tree: app_commands.CommandTree):
             return
         except:
             # this is complete overview Error handling, sends errors to testing server
-            i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Points {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
+            i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Points {inspect.currentframe().f_code.co_name}]", description=format_exc(5)))
             print(f"{cfg.logstamp()}[Points {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
 
 
@@ -226,7 +226,7 @@ def setup(tree: app_commands.CommandTree):
             await intact.followup.send("Done!")
         except:
             # this is complete overview Error handling, sends errors to testing server
-            i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Points {inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
+            i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Points {inspect.currentframe().f_code.co_name}]", description=format_exc(5)))
             print(f"{cfg.logstamp()}[Points {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
 
     print(f"{cfg.logstamp()}[Setup]{cfg.Success} Points command group setup complete")

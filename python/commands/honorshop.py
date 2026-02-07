@@ -276,7 +276,7 @@ def setup(tree: app_commands.CommandTree, guild: Guild):
             return
         except:
             # this is complete overview Error handling, sends errors to testing server
-            i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][{inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
+            i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][{inspect.currentframe().f_code.co_name}]", description=format_exc(5)))
             print(f"{cfg.logstamp()}[{inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
     
     print(f"{cfg.logstamp()}[Setup]{cfg.Success} shop command setup complete for Guild: {guild.id}")

@@ -326,7 +326,7 @@ class ApproveDenyHit(discord.ui.View):
                 return
         except:
             # this is complete overview Error handling, sends errors to testing server
-            i = await interaction.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=discord.Embed(title=f"[Error][{__class__.__name__}][{inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
+            i = await interaction.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=discord.Embed(title=f"[Error][{__class__.__name__}][{inspect.currentframe().f_code.co_name}]", description=format_exc(5)))
             print(f"{cfg.logstamp()}[{__class__.__name__}][{inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
     @discord.ui.button(label="Deny",style=discord.ButtonStyle.red, custom_id="honorshop:hitdeny")
     async def deny(self, interaction: discord.Interaction, button: discord.ui.Button):
@@ -343,7 +343,7 @@ class ApproveDenyHit(discord.ui.View):
                 return
         except:
             # this is complete overview Error handling, sends errors to testing server
-            i = await interaction.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=discord.Embed(title=f"[Error][{__class__.__name__}][{inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
+            i = await interaction.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=discord.Embed(title=f"[Error][{__class__.__name__}][{inspect.currentframe().f_code.co_name}]", description=format_exc(5)))
             print(f"{cfg.logstamp()}[{__class__.__name__}][{inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
 
 class ApprAckDeny(discord.ui.View):
@@ -378,7 +378,7 @@ class ApprAckDeny(discord.ui.View):
                 return
         except:
             # this is complete overview Error handling, sends errors to testing server
-            i = await interaction.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=discord.Embed(title=f"[Error][{__class__.__name__}][{inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
+            i = await interaction.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=discord.Embed(title=f"[Error][{__class__.__name__}][{inspect.currentframe().f_code.co_name}]", description=format_exc(5)))
             print(f"{cfg.logstamp()}[{__class__.__name__}][{inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
     @discord.ui.button(label="Deny",style=discord.ButtonStyle.red, custom_id="honorshop:deny")
     async def deny(self, interaction: discord.Interaction, button: discord.ui.Button):
@@ -415,7 +415,7 @@ class ApprAckDeny(discord.ui.View):
                 raise
         except:
             # this is complete overview Error handling, sends errors to testing server
-            i = await interaction.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=discord.Embed(title=f"[Error][{__class__.__name__}][{inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
+            i = await interaction.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=discord.Embed(title=f"[Error][{__class__.__name__}][{inspect.currentframe().f_code.co_name}]", description=format_exc(5)))
             print(f"{cfg.logstamp()}[{__class__.__name__}][{inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
 
 class InacApprDeny(discord.ui.View):
@@ -463,7 +463,7 @@ class InacApprDeny(discord.ui.View):
                 return
         except:
             # this is complete overview Error handling, sends errors to testing server
-            i = await interaction.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=discord.Embed(title=f"[Error][{__class__.__name__}][{inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
+            i = await interaction.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=discord.Embed(title=f"[Error][{__class__.__name__}][{inspect.currentframe().f_code.co_name}]", description=format_exc(5)))
             print(f"{cfg.logstamp()}[{__class__.__name__}][{inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
     @discord.ui.button(label="Deny",style=discord.ButtonStyle.red, custom_id="inac:deny")
     async def deny(self, interaction: discord.Interaction, button: discord.ui.Button):
@@ -491,7 +491,7 @@ class InacApprDeny(discord.ui.View):
                     print("Error sending DM to user", e)
         except:
             # this is complete overview Error handling, sends errors to testing server
-            i = await interaction.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=discord.Embed(title=f"[Error][{__class__.__name__}][{inspect.currentframe().f_code.co_name}]", description=format_exc(2)))
+            i = await interaction.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=discord.Embed(title=f"[Error][{__class__.__name__}][{inspect.currentframe().f_code.co_name}]", description=format_exc(5)))
             print(f"{cfg.logstamp()}[{__class__.__name__}][{inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
 
 class ShopItems(discord.ui.View):

@@ -74,7 +74,7 @@ async def on_message(message: Message):
         None
     except:
         # this is complete overview Error handling, sends errors to testing server
-        i = await bot.tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Activity-Logger]", description=format_exc(2)))
+        i = await bot.tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][Activity-Logger]", description=format_exc(5)))
         print(f"{cfg.logstamp()}[on_message]{cfg.Error}", i.jump_url)
 
 
