@@ -221,7 +221,10 @@ def setup(tree: app_commands.CommandTree, guild: Guild):
                 NCOmemIDs = []
                 for mem in temp:
                     NCOmemIDs.append(mem.id)
-                rank = get_scgroup_rank([str(comuser)])[comuser]['rank']
+                print(f"[shop] {comuser=}")
+                rank = get_scgroup_rank([str(comuser)])
+                print(f"[shop] {rank=}")
+                rank = rank[comuser]['rank']
                 if rank < 8 and intact.user.id in NCOmemIDs:
                     deduction -= deduction*coupons["Discounts"]["NCO"]
                     string += "Discount: NCO Discount\n"
