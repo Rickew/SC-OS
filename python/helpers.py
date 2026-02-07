@@ -351,7 +351,7 @@ def get_scgroup_rank(users: list[str]) -> dict[dict[str,str|int]]:
     return ranks
 
 def bgc_group_roles(users: list[str]):
-    retembed = Embed(title="Groups & Ranks")
+    retembed = Embed(title="Groups & Ranks", color=0xa80303)
     url = "https://groups.roblox.com/v1/users/{userId}/groups/roles"
     url2 = "https://groups.roblox.com/v1/groups/{groupid}/roles"
     for usr in users:
