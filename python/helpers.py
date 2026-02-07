@@ -363,7 +363,6 @@ def bgc_group_roles(users: list[str]) -> list[Embed]:
             for group in r:
                 print(str(group['group']['id']))
                 r2 = reqget(url=url2.replace("{groupid}", str(group['group']['id']))).json()
-                print(r2)
                 r2 = r2['roles'][0]
                 if group['role']['rank'] == r2['rank']:
                     retembeds[y].add_field(name=f"{group['group']['name']}\nMembers: `{group['group']['memberCount']}`", value=f"{group['group']['role']['name']}\n**Lowest Rank**")
@@ -373,7 +372,7 @@ def bgc_group_roles(users: list[str]) -> list[Embed]:
                 if i >= 24:
                     retembeds.append(Embed(color=0xa80303))
                     y+=1
-        except Exception as e:
+        except:
             return [Embed(title="Error", description="Error getting groups.")]
     return retembeds
 
