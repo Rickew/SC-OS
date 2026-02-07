@@ -350,7 +350,7 @@ def get_scgroup_rank(users: list[str]) -> dict[dict[str,str|int]]:
             ranks.update({usr : {'rank' : -1, 'name' : ''}})
     return ranks
 
-def bgc_group_roles(users: list[str]) -> list[Embed]:
+def bgc_group_roles(users: str) -> list[Embed]:
     retembeds = [Embed(title="Groups & Ranks", color=0xa80303)]
     y = 0
     url = "https://groups.roblox.com/v1/users/{userId}/groups/roles"
@@ -366,7 +366,7 @@ def bgc_group_roles(users: list[str]) -> list[Embed]:
                 if group['role']['rank'] == r2['rank']:
                     retembeds[y].add_field(name=f"{group['group']['name']}", value=f"Members: `{group['group']['memberCount']}`\n{group['role']['name']}\n`Lowest Rank`")
                 else:
-                    retembeds[y].add_field(name=f"{group['group']['name']}", value=f"{group['role']['name']}")
+                    retembeds[y].add_field(name=f"{group['group']['name']}", value=f"Members: `{group['group']['memberCount']}`\n{group['role']['name']}")
                 i += 1
                 if i >= 25:
                     i = 1
@@ -375,6 +375,9 @@ def bgc_group_roles(users: list[str]) -> list[Embed]:
         except Exception as e:
             return [Embed(title="Error", description="Error getting groups.")]
     return retembeds
+
+def bgc_bot_friends(user: str):
+    None
 
 def get_ncgroup_rank(users: list[str]) -> dict[dict[str,str|int]]:
     ranks = {}

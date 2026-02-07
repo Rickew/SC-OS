@@ -437,7 +437,7 @@ def setup(tree: app_commands.CommandTree):
                 blacklistembed.description = "Clean, No SC/RW Blacklist History."
             embeds.append(blacklistembed)
             if extended:
-                groups_ranks_embeds = bgc_group_roles([user])
+                groups_ranks_embeds = bgc_group_roles(user)
                 embeds += groups_ranks_embeds
             await intact.followup.send(content=f"Background Check for: {user}")
             if badgegraph:
