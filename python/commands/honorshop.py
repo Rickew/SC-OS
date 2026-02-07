@@ -74,7 +74,7 @@ def setup(tree: app_commands.CommandTree, guild: Guild):
             comuser = discord_to_username([str(intact.user.id)])[0]
             try:
                 index = 0
-                comuser = rosters[index].members[comuser]
+                comuserinfo = rosters[index].members[comuser]
             except:
                 try:
                     index = 1
@@ -221,9 +221,7 @@ def setup(tree: app_commands.CommandTree, guild: Guild):
                 NCOmemIDs = []
                 for mem in temp:
                     NCOmemIDs.append(mem.id)
-                print(f"[shop] {comuser=}")
                 rank = get_scgroup_rank([str(comuser)])
-                print(f"[shop] {rank=}")
                 rank = rank[comuser]['rank']
                 if rank < 8 and intact.user.id in NCOmemIDs:
                     deduction -= deduction*coupons["Discounts"]["NCO"]
