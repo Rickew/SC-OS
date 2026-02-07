@@ -345,6 +345,7 @@ def get_scgroup_rank(users: list[str]) -> dict[dict[str,str|int]]:
                 if group['group']['id'] == 4971973:
                     ranks.update({usr : {'rank' : group['role']['rank'], 'name' : group['role']['name']}})
             ranks[usr]
+            print(ranks)
         except:
             ranks.update({usr : {'rank' : -1, 'name' : ''}})
     return ranks

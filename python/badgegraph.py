@@ -10,6 +10,7 @@ from time import sleep
 from python.helpers import get_local_path
 import time
 import random
+import data.config as cfg
 
 MIN_DELAY = 5
 TIMEOUT = 100
