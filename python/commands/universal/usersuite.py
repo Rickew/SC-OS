@@ -437,7 +437,8 @@ def setup(tree: app_commands.CommandTree):
                 blacklistembed.description = "Clean, No SC/RW Blacklist History."
             embeds.append(blacklistembed)
             if extended:
-                groups_ranks_embed = bgc_group_roles([user]).color = 0xa80303
+                groups_ranks_embed = bgc_group_roles([user])
+                groups_ranks_embed.color = 0xa80303
                 embeds.append(groups_ranks_embed)
             if badgegraph:
                 while badgethread.is_alive():
