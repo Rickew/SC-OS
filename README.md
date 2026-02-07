@@ -372,8 +372,8 @@ This command is mostly meant for use by TFDs to do a simple, yet decent backgrou
 - Universal Command
 - Rank Locked
 ### Usage
-> /user bgc `[user]` `[badgegraph]`  
-> /user bgc `Rickew` `True/False`
+> /user bgc `[user]` `[badgegraph]` `[extended]`  
+> /user bgc `Rickew` `True/False` `True/False`
 ### Arguments
 > #### user
 >- Traditional roblox username - Case Sensitive  
@@ -383,6 +383,10 @@ This command is mostly meant for use by TFDs to do a simple, yet decent backgrou
 > By default this is set to false. This is because the badge graph is really just an assistance is spotting an alt, and is NOT an actual indicator of an alt account.  
 Thie big reason this is default false though is because doing the badge graph is super intensive if the user has a lot of badges and can take anywhere between 20 seconds and 2 minutes to actually work.  
 **Unless you suspect the account is an ALT, do not use the badgegraph.**
+> #### extended
+> - This is a bool, it's either true or false, it either does the extended checks or it doesn't.  
+> From what I can tell this isn't too api heavy YET, but it will print out embeds with their groups, the total members in that group, their rank in that group, and specify if they are the lowest rank in that group.  
+ **This is essecialy more alt checking, but is most certainly not an indication of an alt account.**
 
 ### Checks
 - Checks the Rotector Database for a user's status as an ERP associated **FREAK** of an account
