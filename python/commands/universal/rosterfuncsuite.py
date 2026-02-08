@@ -321,10 +321,10 @@ async def multifunction(tree: app_commands.CommandTree, option, intact: Interact
     uids = []
     for uid in uidinput:
         uids.append(uid.replace("@", "").replace("<", "").replace(">", ""))
-    print(uids)
+    # print(uids)
     # parse uids into Roblox usernames
     users = discord_to_username(uids)
-    print(users)
+    # print(users)
 
     #quick addition/subtraction parse
     if addsub.value == 2:
@@ -362,8 +362,7 @@ async def multifunction(tree: app_commands.CommandTree, option, intact: Interact
                     rosters[1].headers[option],
                     float(rosters[1].members[users[i]][option])+realamount))
                 auditembed.add_field(name=users[i], value=f"{rosters[1].members[users[i]][option]} -> {float(rosters[1].members[users[i]][option])+realamount} {option}")
-            except Exception as e:
-                print(e)
+            except:
                 resultsembed.add_field(name="UIDError", value=f"User <@{uids[i]}> not on roster")
                 continue
             if rosters[1].members[users[i]]["TFD"] not in upddivs:
