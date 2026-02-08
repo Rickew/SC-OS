@@ -67,8 +67,9 @@ async def on_message(message: Message):
                 else:
                     sign = ""
                 embed.add_field(name=key, value=f"**SC**: `{sc}` | **RW**: `{rw}`\n**Net**: `{sign}{rw-sc}`")
-            for i in range(len(embed.fields)%3, 3):
-                embed.add_field(name=" ", value=" ")
+            if len(embed.fields%3):
+                for i in range(len(embed.fields)%3, 3):
+                    embed.add_field(name=" ", value=" ")
             await message.channel.send(embed=embed)
     except AttributeError:
         None

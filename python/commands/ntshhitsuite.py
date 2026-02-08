@@ -461,7 +461,7 @@ def setup(tree: app_commands.CommandTree):
                 return
 
             logembed = Embed(color=color, title=f"Hit Bounty Awarded To {usr} by {comuser}", description=f"Hit Bounty Awarded to {user.mention} by {intact.user.mention}")
-            rostersheet.update_cells([Cell(roster.members[usr]["Row"], roster.collumns["Honor"], roster.members[usr]["Honor"]+bounty)], value_input_option="USER_ENTERED")
+            rostersheet.update_cells([Cell(roster.members[usr]["Row"], roster.collumns["Honor"], int(roster.members[usr]["Honor"])+bounty)], value_input_option="USER_ENTERED")
             logembed.add_field(name=f"Bounty", value=bounty)
             await intact.followup.send("Done!")
             await intact.channel.send(embed=logembed)
