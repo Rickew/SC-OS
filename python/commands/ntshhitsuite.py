@@ -423,6 +423,7 @@ def setup(tree: app_commands.CommandTree):
     @app_commands.describe(user="The user who is being awarded the hit bounty.")
     async def award(intact: Interaction, user: Member):
         try:
+            await intact.response.defer(thinking=True, ephemeral=True)
             print(f"{cfg.logstamp()}[Hit award] command ran by {intact.user} in {intact.guild.name}")
             hitchannel = intact.guild.get_channel(1328547186006425773)
             try:
@@ -459,10 +460,9 @@ def setup(tree: app_commands.CommandTree):
             except:
                 await intact.followup.send(embed=Embed(title="Error", description="User UIDs are probably not synced.", color=color))
                 return
-
             logembed = Embed(color=color, title=f"Hit Bounty Awarded To {usr} by {comuser}", description=f"Hit Bounty Awarded to {user.mention} by {intact.user.mention}")
-            rostersheet.update_cells([Cell(roster.members[usr]["Row"], roster.collumns["Honor"], int(roster.members[usr]["Honor"])+bounty)], value_input_option="USER_ENTERED")
-            logembed.add_field(name=f"Bounty", value=bounty)
+            rostersheet.update_cells([Cell(roster.members[usr]["Row"], roster.headers["Honor"], float(roster.members[usr]["Honor"])+bounty)], value_input_option="USER_ENTERED")
+            logembed.add_field(name=f"Bounty", value=bounty)    
             await intact.followup.send("Done!")
             await intact.channel.send(embed=logembed)
             await intact.guild.get_channel(1328990510328709160).send(embed=logembed)

@@ -378,7 +378,7 @@ def IF(userinfo: dict, headers: dict, quota: dict, user: Member):
     updcells.append(Cell(userinfo["Row"], headers["Minutes"], 0))
     updcells.append(Cell(userinfo["Row"], headers["Honor"], 0))
     updcells.append(Cell(userinfo["Row"], headers["Events"], 0))
-    updcells.append(Cell(userinfo["Row"], headers["Total Time"], int(userinfo["Minutes"]) + int(userinfo["Total Time"])))
+    updcells.append(Cell(userinfo["Row"], headers["Total Time"], float(userinfo["Minutes"]) + float(userinfo["Total Time"])))
     # Handle Inac Notice/OVERTIME
     if userinfo["Exempt Until"] != "" or userinfo['Quota'] == "EXEMPT":
         try:
@@ -1208,7 +1208,7 @@ def setup(tree: app_commands.CommandTree):
                 most = embeddict["Complete"][0]
                 for i in embeddict["Complete"]:
                     userinfo = rosters[index].members[i]
-                    if int(rosters[index].members[most]["Minutes"]) < int(userinfo["Minutes"]):
+                    if float(rosters[index].members[most]["Minutes"]) < float(userinfo["Minutes"]):
                         most = i
                 try:
                     embed.add_field(name="Most Active User", value=intact.guild.get_member(user_to_uid([most])[0]).mention)
