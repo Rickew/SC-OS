@@ -674,6 +674,22 @@ This will delete the hit-thread after a confirmation prompt pops up to confirm y
 
 <br>
 
+## NTSH Hit Award Command
+Awards the bounty to a user.
+- NTSH Command
+- Internal Setup for Rank Lock
+### Usage
+> /hit award `[user]`  
+> /hit award `@rickew`
+### Arugments
+> #### user
+>- Discord mention of the user you want to add.  
+>ex: @rickew
+
+This must be done BEFORE updating a hit to complete, or else you straight up can't use it, and I'm not correcting that to hand hold you, don't forget to award the bounty.
+
+<br>
+
 # Accepting Inactivity Notices
 There will be buttons underneath Inactivity Notice Requests.
 These are rank locked to Security Supervisor+.
