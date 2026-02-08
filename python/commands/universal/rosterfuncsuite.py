@@ -321,17 +321,16 @@ async def multifunction(tree: app_commands.CommandTree, option, intact: Interact
     uids = []
     for uid in uidinput:
         uids.append(uid.replace("@", "").replace("<", "").replace(">", ""))
-    # print(uids)
-
+    print(uids)
     # parse uids into Roblox usernames
     users = discord_to_username(uids)
-    # print(uids)
+    print(users)
 
     #quick addition/subtraction parse
     if addsub.value == 2:
         realamount = 0 - amount
     else:
-        realamount = int(amount)
+        realamount = float(amount)
         
     # export sheets
     rostersheets, rosters = exportSheetData()
@@ -345,7 +344,7 @@ async def multifunction(tree: app_commands.CommandTree, option, intact: Interact
     except:
         division = "Main Force"
     upddivs = []
-    auditembed = Embed(title=f"{realamount} {option} {addsub.name}ed to Users by {intact.user.mention}", description=f"{option} added by: {intact.user.mention}", color=cfg.embedcolors[division])
+    auditembed = Embed(title=f"{realamount} {option} {addsub.name}ed to Users", description=f"{option} added by: {intact.user.mention}", color=cfg.embedcolors[division])
     # get cells, update values
     for i in range(0, len(users)):
         try: # try to make a cell from the MF roster
@@ -353,18 +352,20 @@ async def multifunction(tree: app_commands.CommandTree, option, intact: Interact
                 Cell(
                     rosters[0].members[users[i]]["Row"], 
                     rosters[0].headers[option],
-                    int(rosters[0].members[users[i]][option])+realamount))
-            auditembed.add_field(name=users[i], value=f"{rosters[0].members[users[i]][option]} -> {int(rosters[0].members[users[i]][option])+realamount} {option}")
+                    float(rosters[0].members[users[i]][option])+realamount))
+            auditembed.add_field(name=users[i], value=f"{rosters[0].members[users[i]][option]} -> {float(rosters[0].members[users[i]][option])+realamount} {option}")
         except:
             try:
                 updcells[1].append(
                 Cell(
                     rosters[1].members[users[i]]["Row"], 
                     rosters[1].headers[option],
-                    int(rosters[1].members[users[i]][option])+realamount))
-                auditembed.add_field(name=users[i], value=f"{rosters[1].members[users[i]][option]} -> {int(rosters[1].members[users[i]][option])+realamount} {option}")
-            except:
+                    float(rosters[1].members[users[i]][option])+realamount))
+                auditembed.add_field(name=users[i], value=f"{rosters[1].members[users[i]][option]} -> {float(rosters[1].members[users[i]][option])+realamount} {option}")
+            except Exception as e:
+                print(e)
                 resultsembed.add_field(name="UIDError", value=f"User <@{uids[i]}> not on roster")
+                continue
             if rosters[1].members[users[i]]["TFD"] not in upddivs:
                 upddivs.append(rosters[1].members[users[i]]["TFD"])
 # print(udcells)
