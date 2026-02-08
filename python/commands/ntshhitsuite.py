@@ -379,7 +379,7 @@ def setup(tree: app_commands.CommandTree):
             return
         except:
             # this is complete overview Error handling, sends errors to testing server
-            i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][NTSH Blacklist{inspect.currentframe().f_code.co_name}]", description=format_exc(5)))
+            i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][NTSH Hit{inspect.currentframe().f_code.co_name}]", description=format_exc(5)))
             print(f"{cfg.logstamp()}[NTSH Hit {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
     
 
@@ -416,55 +416,60 @@ def setup(tree: app_commands.CommandTree):
             return
         except:
             # this is complete overview Error handling, sends errors to testing server
-            i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][NTSH Blacklist{inspect.currentframe().f_code.co_name}]", description=format_exc(5)))
+            i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][NTSH Hit{inspect.currentframe().f_code.co_name}]", description=format_exc(5)))
             print(f"{cfg.logstamp()}[NTSH Hit {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
     
     @hit.command(name="award", description="Award the bounty of a hit to a member.")
     @app_commands.describe(user="The user who is being awarded the hit bounty.")
     async def award(intact: Interaction, user: Member):
-        print(f"{cfg.logstamp()}[Hit award] command ran by {intact.user} in {intact.guild.name}")
-        hitchannel = intact.guild.get_channel(1328547186006425773)
         try:
-            if intact.channel.parent != hitchannel:
+            print(f"{cfg.logstamp()}[Hit award] command ran by {intact.user} in {intact.guild.name}")
+            hitchannel = intact.guild.get_channel(1328547186006425773)
+            try:
+                if intact.channel.parent != hitchannel:
+                    await intact.response.send_message("This must be ran inside of a hit thread.", ephemeral=True)
+                    return
+            except:
                 await intact.response.send_message("This must be ran inside of a hit thread.", ephemeral=True)
                 return
-        except:
-            await intact.response.send_message("This must be ran inside of a hit thread.", ephemeral=True)
-            return
-        message: Message = [message async for message in intact.channel.history(limit=1, oldest_first=True)][0]
-        try:
-            bounty = int(message.embeds[0].fields[4].value)
-        except:
-            await intact.followup.send("Issue with bounty??")
-            return
-        rostersheets, rosters = exportSheetData()
-        rostersheet = rostersheets[1]
-        roster = rosters[1]
-        try:
-            comuser = discord_to_username([str(intact.user.id)])[0]
-            color = cfg.embedcolors["Nothing To See Here"]
-        except:
+            message: Message = [message async for message in intact.channel.history(limit=1, oldest_first=True)][0]
             try:
-                rblxusername = await roblox.Client.get_user(roblox.Client(), get(f"{cfg.disctorblx[0]}"
-                    f"{intact.guild_id}{cfg.disctorblx[1]}{intact.user.id}", 
-                    headers={"Authorization" : cfg.bloxlinkkeys[str(intact.guild_id)]}).json()['robloxID'])
+                bounty = int(message.embeds[0].fields[4].value)
             except:
-                await intact.followup.send(content="You must verify your account with bloxlink!", ephemeral=True)
+                await intact.followup.send("Issue with bounty??")
                 return
-            comuser = rblxusername.name
-            color = cfg.embedcolors["Other"]
-        try:
-            usr = discord_to_username([str(user.id)])[0]
-        except:
-            await intact.followup.send(embed=Embed(title="Error", description="User UIDs are probably not synced.", color=color))
-            return
+            rostersheets, rosters = exportSheetData()
+            rostersheet = rostersheets[1]
+            roster = rosters[1]
+            try:
+                comuser = discord_to_username([str(intact.user.id)])[0]
+                color = cfg.embedcolors["Nothing To See Here"]
+            except:
+                try:
+                    rblxusername = await roblox.Client.get_user(roblox.Client(), get(f"{cfg.disctorblx[0]}"
+                        f"{intact.guild_id}{cfg.disctorblx[1]}{intact.user.id}", 
+                        headers={"Authorization" : cfg.bloxlinkkeys[str(intact.guild_id)]}).json()['robloxID'])
+                except:
+                    await intact.followup.send(content="You must verify your account with bloxlink!", ephemeral=True)
+                    return
+                comuser = rblxusername.name
+                color = cfg.embedcolors["Other"]
+            try:
+                usr = discord_to_username([str(user.id)])[0]
+            except:
+                await intact.followup.send(embed=Embed(title="Error", description="User UIDs are probably not synced.", color=color))
+                return
 
-        logembed = Embed(color=color, title=f"Hit Bounty Awarded To {usr} by {comuser}", description=f"Hit Bounty Awarded to {user.mention} by {intact.user.mention}")
-        rostersheet.update_cells([Cell(roster.members[usr]["Row"], roster.collumns["Honor"], roster.members[usr]["Honor"]+bounty)], value_input_option="USER_ENTERED")
-        logembed.add_field(name=f"Bounty", value=bounty)
-        await intact.followup.send("Done!")
-        await intact.channel.send(embed=logembed)
-        await intact.guild.get_channel(1328990510328709160).send(embed=logembed)
-        return
+            logembed = Embed(color=color, title=f"Hit Bounty Awarded To {usr} by {comuser}", description=f"Hit Bounty Awarded to {user.mention} by {intact.user.mention}")
+            rostersheet.update_cells([Cell(roster.members[usr]["Row"], roster.collumns["Honor"], roster.members[usr]["Honor"]+bounty)], value_input_option="USER_ENTERED")
+            logembed.add_field(name=f"Bounty", value=bounty)
+            await intact.followup.send("Done!")
+            await intact.channel.send(embed=logembed)
+            await intact.guild.get_channel(1328990510328709160).send(embed=logembed)
+            return
+        except:
+            # this is complete overview Error handling, sends errors to testing server
+            i = await tree.client.get_guild(926850392271241226).get_channel(1308928443974684713).send(embed=Embed(title=f"[Error][NTSH Hit{inspect.currentframe().f_code.co_name}]", description=format_exc(5)))
+            print(f"{cfg.logstamp()}[NTSH Hit {inspect.currentframe().f_code.co_name}]{cfg.Error}", i.jump_url)
 
     print(f"{cfg.logstamp()}[Setup]{cfg.Success} NTSH Hit command group setup complete")
