@@ -286,7 +286,7 @@ async def time(tree: app_commands.CommandTree, intact: Interaction, addsub: app_
                         float(rosters[1].members[users[i]]["Minutes"])+realamount))
                     auditembed.add_field(name=users[i], value=f"{rosters[1].members[users[i]]['Minutes']} -> {float(rosters[1].members[users[i]]['Minutes'])+realamount} Time")
                 except:
-                    resultsembed.add_field(name="UID cfg.Error", value=f"User <@{uids[i]}> not on roster")
+                    resultsembed.add_field(name="UIDError", value=f"User <@{uids[i]}> not on roster")
                 if rosters[1].members[users[i]]["TFD"] not in upddivs:
                     upddivs.append(rosters[1].members[users[i]]["TFD"])
 
@@ -364,7 +364,7 @@ async def multifunction(tree: app_commands.CommandTree, option, intact: Interact
                     int(rosters[1].members[users[i]][option])+realamount))
                 auditembed.add_field(name=users[i], value=f"{rosters[1].members[users[i]][option]} -> {int(rosters[1].members[users[i]][option])+realamount} {option}")
             except:
-                resultsembed.add_field(name="UID cfg.Error", value=f"User <@{uids[i]}> not on roster")
+                resultsembed.add_field(name="UIDError", value=f"User <@{uids[i]}> not on roster")
             if rosters[1].members[users[i]]["TFD"] not in upddivs:
                 upddivs.append(rosters[1].members[users[i]]["TFD"])
 # print(udcells)

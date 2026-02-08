@@ -28,7 +28,7 @@ def check_notice(date, quota):
     try:
         intdate = int(datetime.strptime(date, r'%m/%d/%Y').timestamp())
     except:
-        raise Exception("{user}'s Exemption Cell caused an cfg.Error")
+        raise Exception("{user}'s Exemption Cell caused anError")
 
     if intdate > quota["Cycle"]["Start"] + (quota["Cycle"]["Interval"]/2):
         return True
@@ -49,7 +49,7 @@ def NTSH(userinfo: dict, headers: dict, quota: dict, user: Member):
     # Handle Inac Notice/OVERTIME
     if userinfo["Exempt Until"] != "":
         try:
-            # try block is to catch the datetime cfg.Error from misconfigured exemption cells
+            # try block is to catch the datetimeError from misconfigured exemption cells
             
             # handle overtime
             if userinfo["Exempt Until"] == "OVERTIME":
@@ -157,7 +157,7 @@ def MF(userinfo: dict, headers: dict, quota: dict, user: Member):
     # Handle Inac Notice/OVERTIME
     if userinfo["Exempt Until"] != "" or userinfo['Quota'] == "EXEMPT":
         try:
-            # try block is to catch the datetime cfg.Error from misconfigured exemption cells
+            # try block is to catch the datetimeError from misconfigured exemption cells
             
             # handle overtime
             if userinfo["Exempt Until"] == "OVERTIME":
@@ -236,7 +236,7 @@ def TAG(userinfo: dict, headers: dict, quota: dict, user: Member):
     # Handle Inac Notice/OVERTIME
     if userinfo["Exempt Until"] != "" or userinfo['Quota'] == "EXEMPT":
         try:
-            # try block is to catch the datetime cfg.Error from misconfigured exemption cells
+            # try block is to catch the datetimeError from misconfigured exemption cells
             
             # handle overtime
             if userinfo["Exempt Until"] == "OVERTIME":
@@ -311,7 +311,7 @@ def TC(userinfo: dict, headers: dict, quota: dict, user: Member):
     # Handle Inac Notice/OVERTIME
     if userinfo["Exempt Until"] != "" or userinfo['Quota'] == "EXEMPT":
         try:
-            # try block is to catch the datetime cfg.Error from misconfigured exemption cells
+            # try block is to catch the datetimeError from misconfigured exemption cells
             
             # handle overtime
             if userinfo["Exempt Until"] == "OVERTIME":
@@ -382,7 +382,7 @@ def IF(userinfo: dict, headers: dict, quota: dict, user: Member):
     # Handle Inac Notice/OVERTIME
     if userinfo["Exempt Until"] != "" or userinfo['Quota'] == "EXEMPT":
         try:
-            # try block is to catch the datetime cfg.Error from misconfigured exemption cells
+            # try block is to catch the datetimeError from misconfigured exemption cells
             
             # handle overtime
             if userinfo["Exempt Until"] == "OVERTIME":
@@ -1087,7 +1087,7 @@ def setup(tree: app_commands.CommandTree):
                     try:
                         updcells, actionneeded = rosterfunc(rosters[0].members[user], rosters[0].headers, quota[division], intact.guild.get_member(user_to_uid([user])[0]))
                     except:
-                        # this is an cfg.Error thing.
+                        # this is anError thing.
                         updcells = None
                         actionneeded = "Manual Reset Required"
 
@@ -1180,7 +1180,7 @@ def setup(tree: app_commands.CommandTree):
                         try:
                             updcells, actionneeded = rosterfunc(rosters[1].members[user], rosters[1].headers, quota[division], intact.guild.get_member(user_to_uid([user])[0]))
                         except:
-                            # this is an cfg.Error thing
+                            # this is anError thing
                             updcells = None
                             actionneeded = "Manual Reset Required"
                         if updcells:
@@ -1231,7 +1231,7 @@ def setup(tree: app_commands.CommandTree):
                         embed = Embed(title=x, color=cfg.embedcolors[division])
                         embed.description = f"{padding}"
 
-                    # iterate over each person in the batch of 25, if it hits the end it'll raise an index out of range cfg.Error, signaling the end of this action list
+                    # iterate over each person in the batch of 25, if it hits the end it'll raise an index out of rangeError, signaling the end of this action list
                     for i in range(jump, jump+25):
                         try:
                             user = embeddict[x][i]
